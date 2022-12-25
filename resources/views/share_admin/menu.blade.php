@@ -18,16 +18,21 @@
                         <a class="menu-item" href="/admin/danh-muc-san-pham/index" data-i18n="Fitness">Danh Mục Sản
                             Phẩm</a>
                     </li>
+                    <li class=" nav-item {{ request()->is('admin/doanh-thu-admin/index') ? 'active' : '' }}">
+                        <a class="menu-item" href="/admin/doanh-thu-admin/index" data-i18n="Fitness">Dồ Thị Doanh
+                            Thu</a>
+                    </li>
                 </ul>
             </li>
-            <li class=" nav-item {{ request()->is('admin/yeu-cau-danh-muc/index') ? 'active' : '' }}"><a class="menu-item" href="/admin/yeu-cau-danh-muc/index" data-i18n="Horizontal">Yêu Cầu Danh Mục
+            <li class=" nav-item {{ request()->is('admin/yeu-cau-danh-muc/index') ? 'active' : '' }}"><a
+                    class="menu-item" href="/admin/yeu-cau-danh-muc/index" data-i18n="Horizontal">Yêu Cầu Danh Mục
 
-                <span class="cricel badge-pill badge-danger badge-up">
-                   {{$dem}}
-                </span>
+                    <span class="cricel badge-pill badge-danger badge-up">
+                        {{ $dem }}
+                    </span>
 
 
-            </a>
+                </a>
             <li>
         </ul>
     </div>
