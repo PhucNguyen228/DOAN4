@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 // use App\Http\Controllers\Controller;
+
+use App\Models\DanhMucSanPham;
 use App\Models\DoanhThuAdmin;
 use Carbon\Carbon;
 use DateTime;
@@ -13,10 +15,19 @@ class DoanhThuAdminController extends Controller
 {
     public function index()
     {
+        $oder = DanhMucSanPham::where('yeu_cau', 0)->get();
+        // dd($oder->toArray());
+        $dem = 0;
+        if ($oder) {
+            foreach ($oder as $key => $value) {
+                $dem = $dem + 1;
+            }
+            // dd($dem);
+        }
         $check = Auth::guard('TaiKhoan')->user();
         if ($check) {
             if ($check->muc == 0) {
-                return view('admin.doanh_thu.index');
+                return view('admin.doanh_thu.index', compact('dem'));
             } else {
                 toastr()->error('Bạn chưa đăng nhập');
                 return view('admin.login');

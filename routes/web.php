@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ChiTietKhuyenMaiController;
 use App\Http\Controllers\DanhMucSanPhamController;
+use App\Http\Controllers\DoanhThuAdminController;
 use App\Http\Controllers\KhuyenMaiController;
 use App\Http\Controllers\SanPhamController;
 use App\Http\Controllers\TaiKhoanController;
