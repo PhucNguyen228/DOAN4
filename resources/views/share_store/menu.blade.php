@@ -4,7 +4,7 @@
             <li class=" navigation-header"><span>General</span><i class=" feather icon-minus" data-toggle="tooltip"
                     data-placement="right" data-original-title="General"></i>
             </li>
-            <li class=" nav-item"><a href="index.html"><i class="feather icon-home"></i><span class="menu-title"
+            <li class=" nav-item"><a href="/store/index"><i class="feather icon-home"></i><span class="menu-title"
                         data-i18n="Dashboard">Chức Năng</span><span
                         class="badge badge badge-primary badge-pill float-right mr-2"></span></a>
                 <ul class="menu-content">
@@ -19,6 +19,24 @@
                     </li>
                     <li class=" nav-item {{ request()->is('store/yeu-cau/index') ? 'active' : '' }}"><a class="menu-item"
                         href="/store/yeu-cau/index" data-i18n="eCommerce">Yêu cầu danh mục</a>
+                    </li>
+                </ul>
+            </li>
+            <li class=" nav-item"><a href="/store/index"><i class="feather icon-home"></i><span class="menu-title"
+                data-i18n="Dashboard">Đơn Hàng</span><span
+                class="badge badge badge-primary badge-pill float-right mr-2"></span></a>
+                <ul class="menu-content">
+                    <li class=" nav-item {{ request()->is('store/don-hang/cho-xac-nhan') ? 'active' : '' }}"><a class="menu-item"
+                        href="/store/don-hang/cho-xac-nhan" data-i18n="eCommerce">Chờ Xác Nhận</a>
+                    </li>
+                    <li class=" nav-item {{ request()->is('store/don-hang/da-xac-nhan') ? 'active' : '' }}"><a class="menu-item"
+                        href="/store/don-hang/da-xac-nhan" data-i18n="eCommerce">Đã Xác Nhận</a>
+                    </li>
+                    <li class=" nav-item {{ request()->is('store/don-hang/dang-chuyen') ? 'active' : '' }}"><a class="menu-item"
+                        href="/store/don-hang/dang-chuyen" data-i18n="eCommerce">Đang Chuyển</a>
+                    </li>
+                    <li class=" nav-item {{ request()->is('store/don-hang/da-giao') ? 'active' : '' }}"><a class="menu-item"
+                        href="/store/don-hang/da-giao" data-i18n="eCommerce">Đã Giao</a>
                     </li>
                 </ul>
             </li>
