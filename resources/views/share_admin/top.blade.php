@@ -4,7 +4,7 @@
             <ul class="nav navbar-nav flex-row">
                 <li class="nav-item mobile-menu d-md-none mr-auto"><a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#"><i class="feather icon-menu font-large-1"></i></a></li>
                 <li class="nav-item"><a class="navbar-brand" href="/admin/html/ltr/vertical-menu-template/index.html"><img class="brand-logo" alt="stack admin logo" src="/admin/app-assets/images/logo/stack-logo.png">
-                        <h2 class="brand-text">Stack</h2>
+                        <h2 class="brand-text">Fresh Food </h2>
                     </a></li>
                 <li class="nav-item d-md-none"><a class="nav-link open-navbar-container" data-toggle="collapse" data-target="#navbar-mobile"><i class="fa fa-ellipsis-v"></i></a></li>
             </ul>
@@ -30,7 +30,7 @@
                     <li class="dropdown dropdown-user nav-item"><a class="dropdown-toggle nav-link dropdown-user-link" href="#" data-toggle="dropdown">
                             <div class="avatar avatar-online"><img src="/admin/app-assets/images/portrait/small/avatar-s-1.png" alt="avatar"><i></i></div><span>{{ Auth::guard('TaiKhoan')->user()->ten_tai_khoan }}</span>
                         </a>
-                        <div class="dropdown-menu dropdown-menu-right"><a class="dropdown-item" href="user-profile.html"><i class="feather icon-user"></i> Edit Profile</a><a class="dropdown-item" href="app-email.html"><i class="feather icon-mail"></i> My Inbox</a><a class="dropdown-item" href="user-cards.html"><i class="feather icon-check-square"></i> Task</a><a class="dropdown-item" href="app-chat.html"><i class="feather icon-message-square"></i> Chats</a>
+                        <div class="dropdown-menu dropdown-menu-right">
                             <div class="dropdown-divider"></div>
                             @if ( Auth::guard('TaiKhoan')->check())
                             <a class="dropdown-item" href="/logout">

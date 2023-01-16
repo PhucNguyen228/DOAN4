@@ -43,8 +43,7 @@
                         <div class="col-md-4">
                             <div class="position-relative form-group">
                                 <label>Đơn Vị</label>
-                                <input id="don_vi" placeholder="Nhập vào đơn vị" type="text"
-                                    class="form-control">
+                                <input id="don_vi" placeholder="Nhập vào đơn vị" type="text" class="form-control">
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -390,7 +389,7 @@
                     'ten_san_pham': ten_san_pham,
                     'slug_san_pham': slug_san_pham,
                     'gia_ban': gia_ban,
-                    'don_vi' : don_vi,
+                    'don_vi': don_vi,
                     'anh_dai_dien': anh_dai_dien,
                     'mo_ta_ngan': mo_ta_ngan,
                     'mo_ta_dai': mo_ta_chi_tiet,
@@ -497,7 +496,7 @@
                 var val_ten_san_pham = $("#ten_san_pham_edit").val();
                 var val_slug_san_pham = $("#slug_san_pham_edit").val();
                 var val_gia_ban = $("#gia_ban_edit").val();
-                var val_don_vi  = $("#don_vi_edit").val();
+                var val_don_vi = $("#don_vi_edit").val();
                 var val_hinh_anh = $("#hinh_anh_edit").val();
                 var val_mo_ta_ngan = $("#mo_ta_ngan_edit").val();
                 var val_mo_ta_chi_tiet = CKEDITOR.instances['mo_ta_chi_tiet_edit'].getData();
@@ -508,7 +507,7 @@
                     'ten_san_pham': val_ten_san_pham,
                     'slug_san_pham': val_slug_san_pham,
                     'gia_ban': val_gia_ban,
-                    'don_vi' : val_don_vi,
+                    'don_vi': val_don_vi,
                     'anh_dai_dien': val_hinh_anh,
                     'mo_ta_ngan': val_mo_ta_ngan,
                     'mo_ta_dai': val_mo_ta_chi_tiet,
