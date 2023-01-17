@@ -4,11 +4,77 @@
         <i class="pe-7s-car icon-gradient bg-mean-fruit"></i>
     </div>
     <div style="text-align: center; color: red; font-size: 20px">
-        <b>Quản lý sản phẩm</b>
+        <b>Quản lý dánh giá</b>
         <div class="page-title-subheading">
-            <b>Thêm Mới Sản Phẩm và Quản Lý Sản Phẩm</b>
+            <b>Xem thông tin tình trạng của sản phẩm</b>
         </div>
     </div>
+    {{-- @section('content')
+    <div class="col-md-12">
+        <div class="table-response">
+            <div class="main-card mb-3 card">
+                <div class="card-body" style="overflow-x:auto;">
+                    <table style="text-align: center" class="mb-0 table table-bordered" id="tableSanPham">
+                        <thead>
+                            <tr>
+                                <th class="text-nowrap text-center">#</th>
+                                <th class="text-nowrap text-center">Tên sản phẩm</th>
+                                <th class="text-nowrap text-center">Rất Tệ</th>
+                                <th class="text-nowrap text-center">Tệ</th>
+                                <th class="text-nowrap text-center">Bình Thường</th>
+                                <th class="text-nowrap text-center">Hài Lòng</th>
+                                <th class="text-nowrap text-center">Rất Hài Lòng</th>
+                                <th class="text-nowrap text-center">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th class="text-nowrap text-center">1</th>
+                                <th class="text-nowrap text-center">Cà rốt</th>
+                                <th class="text-nowrap text-center">0%</th>
+                                <th class="text-nowrap text-center">5%</th>
+                                <th class="text-nowrap text-center">10%</th>
+                                <th class="text-nowrap text-center">15%</th>
+                                <th class="text-nowrap text-center">70%</th>
+                                <th class="text-nowrap text-center"><button style="background: red;color: white">Delete</button></th>
+                            </tr>
+                            <tr>
+                                <th class="text-nowrap text-center">2</th>
+                                <th class="text-nowrap text-center">Cà tím</th>
+                                <th class="text-nowrap text-center">0%</th>
+                                <th class="text-nowrap text-center">3%</th>
+                                <th class="text-nowrap text-center">10%</th>
+                                <th class="text-nowrap text-center">15%</th>
+                                <th class="text-nowrap text-center">72%</th>
+                                <th class="text-nowrap text-center"><button style="background: red;color: white">Delete</button></th>
+                            </tr>
+                            <tr>
+                                <th class="text-nowrap text-center">3</th>
+                                <th class="text-nowrap text-center">Bí đỏ</th>
+                                <th class="text-nowrap text-center">0%</th>
+                                <th class="text-nowrap text-center">7%</th>
+                                <th class="text-nowrap text-center">10%</th>
+                                <th class="text-nowrap text-center">15%</th>
+                                <th class="text-nowrap text-center">68%</th>
+                                <th class="text-nowrap text-center"><button style="background: red;color: white">Delete</button></th>
+                            </tr>
+                            <tr>
+                                <th class="text-nowrap text-center">4</th>
+                                <th class="text-nowrap text-center">Khoai Lang</th>
+                                <th class="text-nowrap text-center">0%</th>
+                                <th class="text-nowrap text-center">5%</th>
+                                <th class="text-nowrap text-center">7%</th>
+                                <th class="text-nowrap text-center">15%</th>
+                                <th class="text-nowrap text-center">73%</th>
+                                <th class="text-nowrap text-center"><button style="background: red;color: white">Delete</button></th>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection --}}
 @endsection
 @section('content')
     <div class="col-md-12">
@@ -43,8 +109,7 @@
                         <div class="col-md-4">
                             <div class="position-relative form-group">
                                 <label>Đơn Vị</label>
-                                <input id="don_vi" placeholder="Nhập vào đơn vị" type="text"
-                                    class="form-control">
+                                <input id="don_vi" placeholder="Nhập vào đơn vị" type="text" class="form-control">
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -280,6 +345,7 @@
         </div>
     </div>
 </div>
+
 @section('js')
     <script>
         var route_prefix = "/laravel-filemanager";
@@ -390,7 +456,7 @@
                     'ten_san_pham': ten_san_pham,
                     'slug_san_pham': slug_san_pham,
                     'gia_ban': gia_ban,
-                    'don_vi' : don_vi,
+                    'don_vi': don_vi,
                     'anh_dai_dien': anh_dai_dien,
                     'mo_ta_ngan': mo_ta_ngan,
                     'mo_ta_dai': mo_ta_chi_tiet,
@@ -497,7 +563,7 @@
                 var val_ten_san_pham = $("#ten_san_pham_edit").val();
                 var val_slug_san_pham = $("#slug_san_pham_edit").val();
                 var val_gia_ban = $("#gia_ban_edit").val();
-                var val_don_vi  = $("#don_vi_edit").val();
+                var val_don_vi = $("#don_vi_edit").val();
                 var val_hinh_anh = $("#hinh_anh_edit").val();
                 var val_mo_ta_ngan = $("#mo_ta_ngan_edit").val();
                 var val_mo_ta_chi_tiet = CKEDITOR.instances['mo_ta_chi_tiet_edit'].getData();
@@ -508,7 +574,7 @@
                     'ten_san_pham': val_ten_san_pham,
                     'slug_san_pham': val_slug_san_pham,
                     'gia_ban': val_gia_ban,
-                    'don_vi' : val_don_vi,
+                    'don_vi': val_don_vi,
                     'anh_dai_dien': val_hinh_anh,
                     'mo_ta_ngan': val_mo_ta_ngan,
                     'mo_ta_dai': val_mo_ta_chi_tiet,

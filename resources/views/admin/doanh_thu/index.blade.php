@@ -8,6 +8,17 @@
     </div>
 @endsection
 @section('content')
+    @if ($errors->any())
+        <div class="card-header">
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        </div>
+    @endif
     <form class="row ml-lg-1" method="POST" autocomplete="off">
         @csrf
         <div class="col-md-2">
@@ -18,7 +29,7 @@
             <input type="button" id="btn-dashboard-filter" class="btn btn-primary btn-sm" value="Lọc kết quả">
         </div>
 
-        <div class="col-md-2">
+        {{-- <div class="col-md-2">
             <p>
                 Lọc theo:
                 <select class="dashboard-filter form-control">
@@ -29,7 +40,7 @@
                     <option value="365ngay">365 Ngày qua</option>
                 </select>
             </p>
-        </div>
+        </div> --}}
     </form>
     <div class="col-md-12">
         <div id="Chart" style="height: 250px;">
@@ -149,6 +160,30 @@
                         $("#tableDanhMuc thead tr").html('');
                         $("#tableDanhMuc tbody").html('');
                         $("h3 b").html('');
+
+                        // thử in ra xem có đúng không
+                        test = JSON.parse(data);
+                        // console.log(test[0]['Thang_thu_nhap']);
+                        var head_table = '';
+                        var body_table = '';
+                        var total_money = 0;
+                        $.each(test, function(key, value) {
+                            // console.log(key);
+                            console.log(value);
+                            head_table += '<th>' + value['Thang_thu_nhap'] + '</th>';
+                            body_table += '<td>' + value['Tong_tien'].toLocaleString(
+                                'it-IT', {
+                                    style: 'currency',
+                                    currency: 'VND'
+                                }) + '</td>';
+                            total_money += value['Tong_tien'];
+                        });
+                        $("#tableDanhMuc thead tr").html(head_table);
+                        $("#tableDanhMuc tbody").html(body_table);
+                        $("h3 b").html(total_money.toLocaleString('it-IT', {
+                            style: 'currency',
+                            currency: 'VND'
+                        }));
                     }
                 });
             });

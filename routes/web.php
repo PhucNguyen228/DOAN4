@@ -9,6 +9,7 @@ use App\Http\Controllers\TaiKhoanController;
 use App\Http\Controllers\YeuCauDanhMucController;
 use App\Http\Controllers\YeuCauDMStoreController;
 use App\Models\DanhMucSanPhamControler;
+use App\Models\DoanhThuStore;
 use App\Models\SanPham;
 use Illuminate\Support\Facades\Route;
 
@@ -49,6 +50,9 @@ Route::group(['prefix' => '/admin', 'middleware' => 'AdminMiddleWare'], function
         Route::post('/dashboard-filter', [DoanhThuAdminController::class, 'dashboard_filter'])->name('dashboard_filter');
     });
 
+    // THONG KE
+
+
     Route::group(['prefix' => '/yeu-cau-danh-muc'], function () {
         Route::get('/index', [YeuCauDanhMucController::class, 'index']);
         Route::get('/data', [YeuCauDanhMucController::class, 'view']);
@@ -79,6 +83,7 @@ Route::group(['prefix' => '/store', 'middleware' => 'StoreMiddleware'], function
         Route::get('/edit/{id}', [KhuyenMaiController::class, 'edit']);
         Route::post('/update', [KhuyenMaiController::class, 'update']);
     });
+
     Route::group(['prefix' => '/ty-le'], function () {
         Route::get('/index', [ChiTietKhuyenMaiController::class, 'indexTyLe']);
         Route::post('/index', [ChiTietKhuyenMaiController::class, 'create']);
@@ -88,6 +93,15 @@ Route::group(['prefix' => '/store', 'middleware' => 'StoreMiddleware'], function
         Route::get('/status/{id}', [ChiTietKhuyenMaiController::class, 'status']);
         Route::post('/update', [ChiTietKhuyenMaiController::class, 'update']);
     });
+
+    //DOANH THU
+    Route::group(['prefix' => '/doanh-thu-store'], function () {
+        Route::get('/index', [DoanhThuStore::class, 'index']);
+        Route::post('/index', [DoanhThuStore::class, 'testing'])->name('testing');
+        Route::post('/filter', [DoanhThuStore::class, 'filter'])->name('store.doanh_thu.filter');
+        Route::post('/dashboard-filter', [DoanhThuStore::class, 'dashboard_filter'])->name('dashboard_filter');
+    });
+
     Route::group(['prefix' => '/yeu-cau'], function () {
         Route::get('/index', [YeuCauDMStoreController::class, 'index']);
         Route::post('/index', [YeuCauDMStoreController::class, 'create']);

@@ -24,18 +24,20 @@ class DoanhThuAdminController extends Controller
             }
             // dd($dem);
         }
-        $check = Auth::guard('TaiKhoan')->user();
-        if ($check) {
-            if ($check->muc == 0) {
-                return view('admin.doanh_thu.index', compact('dem'));
-            } else {
-                toastr()->error('Bạn chưa đăng nhập');
-                return view('admin.login');
-            }
-        } else {
-            toastr()->error('Bạn chưa đăng nhập');
-            return view('admin.login');
-        }
+        return view('admin.doanh_thu.index', compact('dem'));
+
+        // $check = Auth::guard('TaiKhoan')->user();
+        // if ($check) {
+        //     if ($check->muc == 0) {
+        //         return view('admin.doanh_thu.index');
+        //     } else {
+        //         toastr()->error('Bạn chưa đăng nhập');
+        //         return view('admin.login');
+        //     }
+        // } else {
+        //     toastr()->error('Bạn chưa đăng nhập');
+        //     return view('admin.login');
+        // }
     }
 
     public function testing(Request $request)
@@ -89,14 +91,6 @@ class DoanhThuAdminController extends Controller
                 // dd($change_First_Date, $change_Last_Date);
 
                 if (gettype($from_date) != 'NULL' && gettype($to_date) != 'NULL') {
-                    // 82-88 code so sánh 2 năm khác nhau
-                    // $get = DoanhThuAdmin::where('Thang_thu_nhap', 'LIKE', '%' . $from_date . '%')
-                    //     ->orWhere('Thang_thu_nhap', 'LIKE', '%' . $to_date . '%')
-                    //     ->orderBy('Thang_thu_nhap', 'ASC')
-                    //     ->get()
-                    //     ->groupBy(function ($date) {
-                    //         return Carbon::parse($date->Thang_thu_nhap)->format('y');
-                    //     });
 
                     // 89 - 95 code hiện thị theo năm được chọn
                     $get = DoanhThuAdmin::whereBetween('Thang_thu_nhap', [$change_First_Date, $change_Last_Date])->orderBy('Thang_thu_nhap', 'ASC')->get()->groupBy(function ($date) {
@@ -117,23 +111,42 @@ class DoanhThuAdminController extends Controller
                     toastr()->error('Bạn chưa chọn ngày');
                     return view('admin.doanh_thu.index');
                 }
-                if (gettype($from_date) != 'NULL' && gettype($to_date) == 'NULL' || gettype($from_date) != 'NULL' && gettype($to_date) == 'NULL') {
-                    $get = DoanhThuAdmin::where('Thang_thu_nhap', 'LIKE', '%' . $from_date . '%')->orderBy('Thang_thu_nhap', 'ASC')->get()->groupBy(function ($date) {
+                if (gettype($from_date) != 'NULL' && gettype($to_date) == 'NULL' || gettype($from_date) == 'NULL' && gettype($to_date) != 'NULL') {
+                    $entered_date = '';
+                    if (gettype($from_date) != 'NULL' && gettype($to_date) == 'NULL') {
+                        $entered_date = $from_date;
+                    } else {
+                        $entered_date = $to_date;
+                    }
+                    // dd($entered_date);
+                    $get = DoanhThuAdmin::where('Thang_thu_nhap', 'LIKE', '%' . $entered_date . '%')->orderBy('Thang_thu_nhap', 'ASC')->get()->groupBy(function ($date) {
                         return Carbon::parse($date->Thang_thu_nhap)->format('m/y');
                     });
-                    // dd($get);
-                    foreach ($get as $month => $values) {
-                        $tong_tien = array_sum(array_column($values->toArray(), 'tong_doanh_thu'));
-                        // dd(array_column($values->toArray(), 'tong_doanh_thu'));
-                        $chart_data[] = array(
-                            'Thang_thu_nhap' => $month,
-                            'Tong_tien'      => $tong_tien,
-                        );
+                    // dd(gettype($get));
+                    if ($get->isEmpty()) {
+                        // back()->with('error', 'Không có dữ liệu');
+                        $oder = DanhMucSanPham::where('yeu_cau', 0)->get();
+                        // dd($oder->toArray());
+                        $dem = 0;
+                        if ($oder) {
+                            foreach ($oder as $key => $value) {
+                                $dem = $dem + 1;
+                            }
+                            // dd($dem);
+                        }
+                        // return view('admin.doanh_thu.index', compact('dem'))->with('error', 'Không có dữ liệu');
+                        return redirect()->back()->with('error', 'Không có dữ liệu');
+                    } else {
+                        foreach ($get as $month => $values) {
+                            $tong_tien = array_sum(array_column($values->toArray(), 'tong_doanh_thu'));
+                            // dd(array_column($values->toArray(), 'tong_doanh_thu'));
+                            $chart_data[] = array(
+                                'Thang_thu_nhap' => $month,
+                                'Tong_tien'      => $tong_tien,
+                            );
+                        }
                     }
                 }
-                // $get = DoanhThuAdmin::whereBetween('Thang_thu_nhap', 'LIKE', ['%' . $from_date . '%', '%' . $to_date . '%'])->orderBy('Thang_thu_nhap', 'ASC')->get()->groupBy(function ($date) {
-                //     return Carbon::parse($date->Thang_thu_nhap)->format('y');
-                // });
 
                 echo $data = json_encode($chart_data);
             } else {
@@ -163,7 +176,7 @@ class DoanhThuAdminController extends Controller
                 $year = new Carbon('first day of January');
                 $days_left = Carbon::parse($now)->diffInDays($year);
                 $subdays = Carbon::now('Asia/Ho_Chi_Minh')->subDays($days_left)->toDateString();
-                // dd($sub365days, $year);
+                // dd($subdays, $now, $data['dashboard_value']);
 
                 if ($data['dashboard_value'] == '7ngay') {
                     $get = DoanhThuAdmin::whereBetween('Thang_thu_nhap', [$sub7days, $now])->orderBy('Thang_thu_nhap', 'ASC')->get()->groupBy(function ($date) {

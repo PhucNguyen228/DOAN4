@@ -26,7 +26,7 @@ class SanPhamRequest extends FormRequest
         return [
                 'ten_san_pham'            =>   'required|max:100',
                 'slug_san_pham'           =>   'required',
-                'gia_ban'                 =>    'required|numeric',
+                'gia_ban'                 =>    'required|numeric|min:1',
                 'don_vi'                  =>    'required',
                 'anh_dai_dien'            =>    'required',
                 'id_danh_muc'             =>    'required|exists:danh_muc_san_phams,id',
