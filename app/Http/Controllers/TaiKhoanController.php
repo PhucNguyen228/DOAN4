@@ -104,6 +104,9 @@ class TaiKhoanController extends Controller
             } elseif ($agent->muc == 2) {
                 Auth::guard('TaiKhoan')->logout();
                 return redirect("/login");
+            } elseif ($agent->muc == 1){
+                Auth::guard('TaiKhoan')->logout();
+                return redirect("/login");
             }
         }
     }
@@ -134,11 +137,11 @@ class TaiKhoanController extends Controller
             $agent = Auth::guard('TaiKhoan')->user();
             if ($agent->trang_thai == 1) {
                 if ($agent->muc == 1) {
-                    return response()->json(['status' => 2]);
-                } else if ($agent->muc == 2) {
-                    return response()->json(['status' => 3]);
-                } else {
                     return response()->json(['status' => 1]);
+                } else if ($agent->muc == 2) {
+                    return response()->json(['status' => 2]);
+                } else {
+                    return response()->json(['status' => 3]);
                 }
             } else {
                 toastr()->warning('trang thai da tat');

@@ -3,9 +3,13 @@
 use App\Http\Controllers\ChiTietKhuyenMaiController;
 use App\Http\Controllers\DanhMucSanPhamController;
 use App\Http\Controllers\DoanhThuAdminController;
+use App\Http\Controllers\DonHangStoreController;
+use App\Http\Controllers\HomePageController;
 use App\Http\Controllers\KhuyenMaiController;
 use App\Http\Controllers\SanPhamController;
 use App\Http\Controllers\TaiKhoanController;
+use App\Http\Controllers\ThongTinController;
+use App\Http\Controllers\ThongTinCustomerController;
 use App\Http\Controllers\YeuCauDanhMucController;
 use App\Http\Controllers\YeuCauDMStoreController;
 use App\Models\DanhMucSanPhamControler;
@@ -64,6 +68,12 @@ Route::group(['prefix' => '/admin', 'middleware' => 'AdminMiddleWare'], function
 Route::group(['prefix' => '/store', 'middleware' => 'StoreMiddleware'], function () {
 
     Route::get('/index', [SanPhamController::class, 'index']);
+
+    Route::group(['prefix' => '/thong-tin'], function () {
+        Route::get('/index', [ThongTinController::class, 'index']);
+        Route::get('/data',[ThongTinController::class,'data']);
+        Route::post('/update', [ThongTinController::class, 'update']);
+    });
     Route::group(['prefix' => '/san-pham'], function () {
         Route::get('/index', [SanPhamController::class, 'indexSanPham']);
         Route::post('/index', [SanPhamController::class, 'createSP']);
@@ -107,9 +117,30 @@ Route::group(['prefix' => '/store', 'middleware' => 'StoreMiddleware'], function
         Route::post('/index', [YeuCauDMStoreController::class, 'create']);
         Route::get('/data', [YeuCauDMStoreController::class, 'data']);
     });
+    Route::group(['prefix' => '/don-hang'], function () {
+        Route::get('/cho-xac-nhan', [DonHangStoreController::class, 'indexXacNhan']);
+        Route::get('/da-xac-nhan', [DonHangStoreController::class, 'indexDaXacNhan']);
+        Route::get('/dang-chuyen', [DonHangStoreController::class, 'indexDangChuyen']);
+        Route::get('/da-giao', [DonHangStoreController::class, 'indexDaGiao']);
+    });
 });
+Route::get('/', [HomePageController::class, 'index']);
+Route::get('/detail', [HomePageController::class, 'detail']);
+Route::group(['prefix' => '/customer', 'middleware' => 'CustomerMiddleWare'], function () {
+    Route::get('/don-hang', [HomePageController::class, 'indexDonHang']);
+    Route::group(['prefix' => '/cart'], function () {
+        Route::get('/index', [HomePageController::class, 'indexCart']);
+    });
+    Route::group(['prefix' => '/thong-tin'], function () {
+        Route::get('/index', [ThongTinCustomerController::class, 'index']);
+    });
+});
+
 // Route::get('/', function () {
-//     return view('store_owner.page_chinh.index');
+//     return view('customer.page.index');
+// });
+// Route::get('/index', function () {
+//     return view('customer.cart.index');
 // });
 
 Route::group(['prefix' => 'laravel-filemanager'], function () {

@@ -34,7 +34,11 @@
                     <li class="dropdown dropdown-user nav-item"><a class="dropdown-toggle nav-link dropdown-user-link" href="#" data-toggle="dropdown">
                             <div class="avatar avatar-online"><img src="/admin/app-assets/images/portrait/small/avatar-s-1.png" alt="avatar"><i></i></div><span>{{ Auth::guard('TaiKhoan')->user()->ten_tai_khoan }}</span>
                         </a>
-                        <div class="dropdown-menu dropdown-menu-right"><a class="dropdown-item" href="user-profile.html"><i class="feather icon-user"></i> Edit Profile</a><a class="dropdown-item" href="app-email.html"><i class="feather icon-mail"></i> My Inbox</a><a class="dropdown-item" href="user-cards.html"><i class="feather icon-check-square"></i> Task</a><a class="dropdown-item" href="app-chat.html"><i class="feather icon-message-square"></i> Chats</a>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a class="thongtin dropdown-item" href="/store/thong-tin/index" >
+                                <i class="feather icon-user"></i>
+                                Thông tin cá nhân
+                            </a>
                             <div class="dropdown-divider"></div>
                             @if ( Auth::guard('TaiKhoan')->check())
                             <a class="dropdown-item" href="/logout">

@@ -13,8 +13,8 @@
     <!-- App css -->
     <link href="{{ asset('css/icons.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('css/app-creative.min.css') }}" rel="stylesheet" type="text/css" id="light-style" />
-    <meta name="csrf-token" content="{{ csrf_token() }}" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
     <style>
         body.authentication-bg {
             background-image: url(https://lovefoodhatewaste.ca/wp-content/uploads/2020/11/FoodBackgroundNomeat.jpg);
@@ -100,8 +100,8 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
-    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script> --}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script> --}}
     <script>
         $(document).ready(function(e) {
             $.ajaxSetup({
@@ -109,6 +109,7 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
+
             $("#login").click(function(e) {
                 e.preventDefault();
                 var email = $("#email").val();
@@ -123,14 +124,17 @@
                     data: payload,
                     type: 'post',
                     success: function(res) {
-                        if (res.status == 2) {
+                        if (res.status == 1) {
                             toastr.success('dang nhap thanh cong');
-                        } else if (res.status == 3) {
+                            setTimeout(function() {
+                                window.top.location = "/"
+                            }, 1000)
+                        } else if (res.status == 2) {
                             toastr.success('dang nhap thanh cong');
                             setTimeout(function() {
                                 window.top.location = "/store/index"
                             }, 1000)
-                        } else if (res.status == 1) {
+                        } else if (res.status == 3) {
                             toastr.error('dang nhap that bai');
                         } else {
                             toastr.error('dang nhap that bai');
