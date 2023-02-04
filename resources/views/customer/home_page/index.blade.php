@@ -139,41 +139,44 @@
         </div>
 
         <div class="container">
-            <div class="timkiem mb-5" style="text-align: center">
-                <div>
-                    <b>Tìm kiếm sản phẩm</b>
+            <form autocomplete="off" method="post" action="/tim-kiem">
+                @csrf
+                <div class="timkiem mb-5" style="text-align: center">
+                    <div>
+                        <b>Tìm kiếm sản phẩm</b>
+                    </div>
+                    <input name="ten_san_pham" style="width: 700px; height: 50px;" type="text"
+                        placeholder="Nhập tên sản phẩm">
+                    <button class="submit">Tìm Kiếm</button>
                 </div>
-                <input style="width: 700px; height: 50px;" type="text" placeholder="Nhập tên sản phẩm">
-            </div>
+            </form>
             <div class="row">
                 @foreach ($sanPham as $key_sp => $value_sp)
                     <div class="col-md-6 col-lg-3 ftco-animate">
                         <div class="product">
-                            <a href="#" class="img-prod"><img class="img-fluid" src="{{ $value_sp->anh_dai_dien }}"
-                                    alt="Colorlib Template">
-                                <span class="status">30%</span>
+                            <a data-id="{{ $value_sp->id }}" href="/chi-tiet/{{ $value_sp->id }}" class="img-prod"><img
+                                    class="img-fluid" src="{{ $value_sp->anh_dai_dien }}" alt="Colorlib Template">
                                 <div class="overlay"></div>
                             </a>
                             <div class="text py-3 pb-4 px-3 text-center">
                                 <h3><a href="#"></a>{{ $value_sp->ten_san_pham }}</h3>
                                 <div class="d-flex">
                                     <div class="pricing">
-                                        <p class="price"><span class="mr-2 price-dc">25000</span><span
-                                                class="price-sale">{{ $value_sp->gia_ban }}</span></p>
+                                        <p class="price">
+                                            @if ($value_sp->gia_khuyen_mai == 0)
+                                                <span class="price-sale">{{ $value_sp->gia_ban }}</span>
+                                            @else
+                                                <span class="mr-2 price-dc">{{ $value_sp->gia_ban }}</span>
+                                                <span class="price-sale">{{ $value_sp->gia_khuyen_mai }}</span>
+                                            @endif
+                                        </p>
                                     </div>
                                 </div>
                                 <div class="bottom-area d-flex px-3">
                                     <div class="m-auto d-flex">
-                                        <a href="#"
-                                            class="add-to-cart d-flex justify-content-center align-items-center text-center">
-                                            <span><i class="ion-ios-menu"></i></span>
-                                        </a>
-                                        <a href="#"
-                                            class="buy-now d-flex justify-content-center align-items-center mx-1">
-                                            <span><i class="ion-ios-cart"></i></span>
-                                        </a>
-                                        <a href="#" class="heart d-flex justify-content-center align-items-center ">
-                                            <span><i class="ion-ios-heart"></i></span>
+                                        <a style="cursor: pointer;" data-id="{{ $value_sp->id }}"
+                                            class="buy-now d-flex justify-content-center align-items-center mx-1 addToCart">
+                                            <span><i class="ion-ios-cart "></i></span>
                                         </a>
                                     </div>
                                 </div>
@@ -182,6 +185,9 @@
                     </div>
                 @endforeach
             </div>
+            {{-- <div class="row" id="tableSanPham">
+
+            </div> --}}
         </div>
     </section>
 @endsection
@@ -283,4 +289,15 @@
             </div>
         </div>
     </section>
+@endsection
+@section('js')
+    <script>
+        $(document).ready(function() {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+        });
+    </script>
 @endsection
