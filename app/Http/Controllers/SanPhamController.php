@@ -66,6 +66,7 @@ class SanPhamController extends Controller
                         'ten_san_pham'  => $request->ten_san_pham,
                         'slug_san_pham' => $request->slug_san_pham,
                         'gia_ban'       => $request->gia_ban,
+                        'gia_khuyen_mai' => $request->gia_khuyen_mai,
                         'don_vi'        => $request->don_vi,
                         'anh_dai_dien'  => $request->anh_dai_dien,
                         'id_danh_muc'   => $request->id_danh_muc,
@@ -96,7 +97,7 @@ class SanPhamController extends Controller
             if ($check->muc == 2) {
                 $data = SanPham::join('danh_muc_san_phams', 'san_phams.id_danh_muc', 'danh_muc_san_phams.id')
                     ->where('san_phams.id_tai_khoan', $check->id)
-                    ->select('san_phams.id', 'san_phams.ten_san_pham', 'san_phams.slug_san_pham', 'san_phams.gia_ban', 'san_phams.is_open', 'danh_muc_san_phams.ten_danh_muc')
+                    ->select('san_phams.id', 'san_phams.ten_san_pham', 'san_phams.slug_san_pham', 'san_phams.gia_ban','san_phams.gia_khuyen_mai', 'san_phams.is_open', 'danh_muc_san_phams.ten_danh_muc')
                     ->get();
                 return response()->json([
                     'dataSP'    => $data,

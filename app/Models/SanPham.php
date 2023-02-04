@@ -13,6 +13,7 @@ class SanPham extends Model
             'ten_san_pham',
             'slug_san_pham',
             'gia_ban',
+            'gia_khuyen_mai',
             'don_vi',
             'id_chi_tiet_KM',
             'anh_dai_dien',

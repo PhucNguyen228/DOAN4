@@ -20,7 +20,7 @@ class LoginCustomerMiddleWare
         $store = Auth::guard('TaiKhoan')->check();
         if ($store) {
             $check = Auth::guard('TaiKhoan')->user();
-            if ($check->muc == 1 && $check->trang_thai == 1) {
+            if ($check->muc == 1 && $check->trang_thai == 1 ) {
                 return $next($request);
             } else {
                 // toastr()->error('Bạn cần phải đăng nhập');
