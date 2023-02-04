@@ -41,15 +41,17 @@
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item active"><a href="/" class="nav-link">Home</a></li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown"
+                        <a class="nav-link dropdown-toggle" href="#" id="danhMucSP" data-toggle="dropdown"
                             aria-haspopup="true" aria-expanded="false">Shop</a>
                         <div class="dropdown-menu" aria-labelledby="dropdown04">
-                            <a class="dropdown-item" href="shop.html">Rau</a>
-                            <a class="dropdown-item" href="wishlist.html">Củ</a>
-                            <a class="dropdown-item" href="product-single.html">Qủa</a>
+                            @foreach ($danhMuc as $value)
+                                {{-- <option value={{ $value->id }}> {{ $value->ten_danh_muc }} </option> --}}
+                                <a class="dropdown-item" id="danhmucSP"
+                                    href="/san-pham/{{ $value->id }}">{{ $value->ten_danh_muc }}</a>
+                            @endforeach
                         </div>
                     </li>
-                    <li class="nav-item"><a href="about.html" class="nav-link">Sell on Fresh Food</a></li>
+                    <li class="nav-item"><a href="/san-pham-sell" class="nav-link">Sell on Fresh Food</a></li>
                     <li class="nav-item cta cta-colored"><a href="/customer/cart/index" class="nav-link"><span
                                 class="icon-shopping_cart"></span>[0]</a></li>
                     {{-- @if (Auth::guard('TaiKhoan')->check())
@@ -69,25 +71,26 @@
                         </li>
                     @endif --}}
                     @if (Auth::guard('TaiKhoan')->check())
-                    <li class="nav-item dropdown">
+                        <li class="nav-item dropdown">
 
-                        <a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown"
-                            aria-haspopup="true" aria-expanded="false">{{ Auth::guard('TaiKhoan')->user()->ten_tai_khoan }} </a>
-                        <div class="dropdown-menu" aria-labelledby="dropdown04">
-                            <a class="dropdown-item" href="/customer/thong-tin/index">Thông tin</a>
-                            <a class="dropdown-item" href="/customer/don-hang">Đơn hàng</a>
-                            @if (Auth::guard('TaiKhoan')->check())
-                            <a class="dropdown-item" href="/logout">
-                                Logout
-                            </a>
-                            @endif
-                        </div>
-                    </li>
+                            <a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown"
+                                aria-haspopup="true"
+                                aria-expanded="false">{{ Auth::guard('TaiKhoan')->user()->ten_tai_khoan }} </a>
+                            <div class="dropdown-menu" aria-labelledby="dropdown04">
+                                <a class="dropdown-item" href="/customer/thong-tin/index">Thông tin</a>
+                                <a class="dropdown-item" href="/customer/don-hang">Đơn hàng</a>
+                                @if (Auth::guard('TaiKhoan')->check())
+                                    <a class="dropdown-item" href="/logout">
+                                        Logout
+                                    </a>
+                                @endif
+                            </div>
+                        </li>
                     @else
-                    <li class="nav-item ">
-                        <a class="nav-link" href="/login" id="dropdown04"
-                        aria-haspopup="true" aria-expanded="false"> Singin </a>
-                    </li>
+                        <li class="nav-item ">
+                            <a class="nav-link" href="/login" id="dropdown04" aria-haspopup="true"
+                                aria-expanded="false"> Singin </a>
+                        </li>
                     @endif
                 </ul>
 
@@ -166,7 +169,9 @@
                         <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia.</p>
                         <ul class="ftco-footer-social list-unstyled float-md-left float-lft mt-5">
                             <li class="ftco-animate"><a href="#"><span class="icon-twitter"></span></a></li>
-                            <li class="ftco-animate"><a href="https://www.facebook.com/profile.php?id=100071740000977"><span class="icon-facebook"></span></a></li>
+                            <li class="ftco-animate"><a
+                                    href="https://www.facebook.com/profile.php?id=100071740000977"><span
+                                        class="icon-facebook"></span></a></li>
                             <li class="ftco-animate"><a href="#"><span class="icon-instagram"></span></a></li>
                         </ul>
                     </div>
@@ -244,6 +249,39 @@
         </svg></div>
     @include('share_page.js')
     @yield('js')
+    <script>
+        $(document).ready(function(e) {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            $(".addToCart").click(function() {
+                console.log(1231213);
+                var san_pham_id = $(this).data('id');
+                var payload = {
+                    'san_pham_id': san_pham_id,
+                    'so_luong': 1,
+                };
+                axios
+                    .post('/customer/add-to-cart', payload)
+                    .then((res) => {
+                        if (res.data.status) {
+                            toastr.success("Đã thêm vào giỏ hàng!");
+                        } else {
+                            toastr.error("Bạn cần đăng nhập trước!");
+                        }
+                    })
+                    .catch((res) => {
+                        var danh_sach_loi = res.response.data.errors;
+                        $.each(danh_sach_loi, function(key, value) {
+                            toastr.error(value[0]);
+                        });
+                    });
+            });
+        });
+    </script>
 </body>
 
 </html>

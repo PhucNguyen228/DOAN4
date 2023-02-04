@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\ChiTietDonHangController;
 use App\Http\Controllers\ChiTietKhuyenMaiController;
+use App\Http\Controllers\ChiTietSanPhamController;
 use App\Http\Controllers\DanhMucSanPhamController;
 use App\Http\Controllers\DoanhThuAdminController;
 use App\Http\Controllers\DonHangStoreController;
@@ -8,12 +10,14 @@ use App\Http\Controllers\HomePageController;
 use App\Http\Controllers\KhuyenMaiController;
 use App\Http\Controllers\QuanLyThueAdminController;
 use App\Http\Controllers\SanPhamController;
+use App\Http\Controllers\SanPhamSellController;
 use App\Http\Controllers\TaiKhoanController;
 use App\Http\Controllers\ThongKeAdminController;
 use App\Http\Controllers\ThongTinController;
 use App\Http\Controllers\ThongTinCustomerController;
 use App\Http\Controllers\YeuCauDanhMucController;
 use App\Http\Controllers\YeuCauDMStoreController;
+use App\Models\ChiTietDonHang;
 use App\Models\DanhMucSanPhamControler;
 use App\Models\DoanhThuAdmin;
 use App\Models\DoanhThuStore;
@@ -92,7 +96,7 @@ Route::group(['prefix' => '/store', 'middleware' => 'StoreMiddleware'], function
 
     Route::group(['prefix' => '/thong-tin'], function () {
         Route::get('/index', [ThongTinController::class, 'index']);
-        Route::get('/data', [ThongTinController::class, 'data']);
+        // Route::get('/data',[ThongTinController::class,'data']);
         Route::post('/update', [ThongTinController::class, 'update']);
     });
     Route::group(['prefix' => '/san-pham'], function () {
@@ -147,13 +151,27 @@ Route::group(['prefix' => '/store', 'middleware' => 'StoreMiddleware'], function
 });
 Route::get('/', [HomePageController::class, 'index']);
 Route::get('/detail', [HomePageController::class, 'detail']);
+// Route::get('/data', [HomePageController::class, 'data']);
+Route::get('/chi-tiet/{id}', [ChiTietSanPhamController::class, 'ChiTietSP']);
+Route::get('/san-pham-sell', [SanPhamSellController::class, 'dataSell']);
+Route::get('/san-pham/{id}', [HomePageController::class, 'dataSP']);
+Route::post('/tim-kiem', [HomePageController::class, 'search']);
+
+
+
 Route::group(['prefix' => '/customer', 'middleware' => 'CustomerMiddleWare'], function () {
     Route::get('/don-hang', [HomePageController::class, 'indexDonHang']);
+    Route::post('/add-to-cart', [HomePageController::class, 'addToCart']);
     Route::group(['prefix' => '/cart'], function () {
-        Route::get('/index', [HomePageController::class, 'indexCart']);
+        Route::get('/index', [ChiTietDonHangController::class, 'indexCart']);
+        Route::get('/data', [ChiTietDonHangController::class, 'dataCart']);
+        Route::post('/updateqty', [ChiTietDonHangController::class, 'updateqty']);
+        Route::get('/remove/{id}', [ChiTietDonHangController::class, 'removeCart']);
     });
     Route::group(['prefix' => '/thong-tin'], function () {
         Route::get('/index', [ThongTinCustomerController::class, 'index']);
+        // Route::get('/data',[ThongTinCustomerController::class,'data']);
+        Route::post('/update', [ThongTinCustomerController::class, 'update']);
     });
 });
 
