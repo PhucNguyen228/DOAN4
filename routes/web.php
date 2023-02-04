@@ -6,13 +6,16 @@ use App\Http\Controllers\DoanhThuAdminController;
 use App\Http\Controllers\DonHangStoreController;
 use App\Http\Controllers\HomePageController;
 use App\Http\Controllers\KhuyenMaiController;
+use App\Http\Controllers\QuanLyThueAdminController;
 use App\Http\Controllers\SanPhamController;
 use App\Http\Controllers\TaiKhoanController;
+use App\Http\Controllers\ThongKeAdminController;
 use App\Http\Controllers\ThongTinController;
 use App\Http\Controllers\ThongTinCustomerController;
 use App\Http\Controllers\YeuCauDanhMucController;
 use App\Http\Controllers\YeuCauDMStoreController;
 use App\Models\DanhMucSanPhamControler;
+use App\Models\DoanhThuAdmin;
 use App\Models\DoanhThuStore;
 use App\Models\SanPham;
 use Illuminate\Support\Facades\Route;
@@ -46,6 +49,17 @@ Route::group(['prefix' => '/admin', 'middleware' => 'AdminMiddleWare'], function
         Route::post('/update', [DanhMucSanPhamController::class, 'update']);
     });
 
+    // THUE
+    Route::group(['prefix' => '/thue'], function () {
+        Route::get('/index', [QuanLyThueAdminController::class, 'index']);
+        Route::post('/index', [QuanLyThueAdminController::class, 'create'])->name('admin.thue.create');
+        Route::get('/data', [QuanLyThueAdminController::class, 'getData'])->name('admin.thue.data');
+        Route::get('/status/{id}', [QuanLyThueAdminController::class, 'status']);
+        Route::get('/delete/{id}', [QuanLyThueAdminController::class, 'delete']);
+        Route::get('/edit/{id}', [QuanLyThueAdminController::class, 'edit']);
+        Route::post('/update', [QuanLyThueAdminController::class, 'update']);
+    });
+
     //DOANH THU
     Route::group(['prefix' => '/doanh-thu-admin'], function () {
         Route::get('/index', [DoanhThuAdminController::class, 'index']);
@@ -55,7 +69,11 @@ Route::group(['prefix' => '/admin', 'middleware' => 'AdminMiddleWare'], function
     });
 
     // THONG KE
-
+    Route::group(['prefix' => '/thong-ke-admin'], function () {
+        Route::get('/index', [ThongKeAdminController::class, 'index']);
+        Route::post('/filter', [ThongKeAdminController::class, 'filter'])->name('admin.thong_ke.filter');
+        // Route::post('/dashboard-filter', [DoanhThuAdminController::class, 'dashboard_filter'])->name('dashboard__filter');
+    });
 
     Route::group(['prefix' => '/yeu-cau-danh-muc'], function () {
         Route::get('/index', [YeuCauDanhMucController::class, 'index']);
@@ -67,11 +85,14 @@ Route::group(['prefix' => '/admin', 'middleware' => 'AdminMiddleWare'], function
 
 Route::group(['prefix' => '/store', 'middleware' => 'StoreMiddleware'], function () {
 
+    // testing .............
     Route::get('/index', [SanPhamController::class, 'index']);
+    Route::post('/index', [SanPhamController::class, 'create'])->name('nop_tien');
+    Route::post('/vnpay_payment', [SanPhamController::class, 'vnpay_payment']);
 
     Route::group(['prefix' => '/thong-tin'], function () {
         Route::get('/index', [ThongTinController::class, 'index']);
-        Route::get('/data',[ThongTinController::class,'data']);
+        Route::get('/data', [ThongTinController::class, 'data']);
         Route::post('/update', [ThongTinController::class, 'update']);
     });
     Route::group(['prefix' => '/san-pham'], function () {

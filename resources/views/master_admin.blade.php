@@ -6,8 +6,9 @@
         display: flex;
         justify-content: space-around;
     }
+
     .cricel {
-        height: 30px ;
+        height: 30px;
         width: 30px;
     }
 </style>

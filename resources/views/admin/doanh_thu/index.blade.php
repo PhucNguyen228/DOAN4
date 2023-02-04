@@ -28,19 +28,6 @@
             <input type="text" class="form-control" name="datepicker" id="datepicker2" />
             <input type="button" id="btn-dashboard-filter" class="btn btn-primary btn-sm" value="Lọc kết quả">
         </div>
-
-        {{-- <div class="col-md-2">
-            <p>
-                Lọc theo:
-                <select class="dashboard-filter form-control">
-                    <option>-- Chọn --</option>
-                    <option value="7ngay">7 Ngày qua</option>
-                    <option value="thangtruoc">Tháng trước</option>
-                    <option value="thangnay">Tháng này</option>
-                    <option value="365ngay">365 Ngày qua</option>
-                </select>
-            </p>
-        </div> --}}
     </form>
     <div class="col-md-12">
         <div id="Chart" style="height: 250px;">
@@ -49,7 +36,7 @@
     </div>
 
     {{-- show table --}}
-    <div class="col-md-12">
+    {{-- <div class="col-md-12">
         <div class="main-card mb-3 card">
             <div class="card-body">
                 <h5 class="card-title">Bảng Thống Kê 1 Năm</h5>
@@ -70,7 +57,7 @@
                 <h3 class="card-title">Tổng tiền: <b></b> </h3>
             </div>
         </div>
-    </div>
+    </div> --}}
 
 
     <script type="text/javascript">
@@ -109,28 +96,6 @@
                     success: function(data) {
                         chart.setData(JSON.parse(data));
                         // thử in ra xem có đúng không
-                        test = JSON.parse(data);
-                        // console.log(test[0]['Thang_thu_nhap']);
-                        var head_table = '';
-                        var body_table = '';
-                        var total_money = 0;
-                        $.each(test, function(key, value) {
-                            // console.log(key);
-                            console.log(value);
-                            head_table += '<th>' + value['Thang_thu_nhap'] + '</th>';
-                            body_table += '<td>' + value['Tong_tien'].toLocaleString(
-                                'it-IT', {
-                                    style: 'currency',
-                                    currency: 'VND'
-                                }) + '</td>';
-                            total_money += value['Tong_tien'];
-                        });
-                        $("#tableDanhMuc thead tr").html(head_table);
-                        $("#tableDanhMuc tbody").html(body_table);
-                        $("h3 b").html(total_money.toLocaleString('it-IT', {
-                            style: 'currency',
-                            currency: 'VND'
-                        }));
                     }
                 });
             });
@@ -156,34 +121,6 @@
                         $('#myAreaChart').html(data);
                         chart.setData(JSON.parse(data));
                         console.log(JSON.parse(data));
-                        // xoá dữ liệu cũ của table
-                        $("#tableDanhMuc thead tr").html('');
-                        $("#tableDanhMuc tbody").html('');
-                        $("h3 b").html('');
-
-                        // thử in ra xem có đúng không
-                        test = JSON.parse(data);
-                        // console.log(test[0]['Thang_thu_nhap']);
-                        var head_table = '';
-                        var body_table = '';
-                        var total_money = 0;
-                        $.each(test, function(key, value) {
-                            // console.log(key);
-                            console.log(value);
-                            head_table += '<th>' + value['Thang_thu_nhap'] + '</th>';
-                            body_table += '<td>' + value['Tong_tien'].toLocaleString(
-                                'it-IT', {
-                                    style: 'currency',
-                                    currency: 'VND'
-                                }) + '</td>';
-                            total_money += value['Tong_tien'];
-                        });
-                        $("#tableDanhMuc thead tr").html(head_table);
-                        $("#tableDanhMuc tbody").html(body_table);
-                        $("h3 b").html(total_money.toLocaleString('it-IT', {
-                            style: 'currency',
-                            currency: 'VND'
-                        }));
                     }
                 });
             });

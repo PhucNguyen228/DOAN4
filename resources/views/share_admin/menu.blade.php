@@ -25,6 +25,9 @@
                     <li class=" nav-item {{ request()->is('admin/thong-ke-admin/index') ? 'active' : '' }}">
                         <a class="menu-item" href="/admin/thong-ke-admin/index" data-i18n="Fitness">Thống Kê</a>
                     </li>
+                    <li class=" nav-item {{ request()->is('admin/thue/index') ? 'active' : '' }}">
+                        <a class="menu-item" href="/admin/thue/index" data-i18n="Fitness">Thuế</a>
+                    </li>
                 </ul>
             </li>
             <li class=" nav-item {{ request()->is('admin/yeu-cau-danh-muc/index') ? 'active' : '' }}"><a
