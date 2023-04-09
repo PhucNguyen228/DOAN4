@@ -19,7 +19,7 @@
 
                     <button><a href="">Không Hài Lòng</a></button>
                     <h5>Tên cửa hàng:</h5>
-                    <h4 style="color: red">Bà tư rau sạch</h4>
+                    <h4 style="color: red">{{ $data->ten_cua_hang }}</h4>
                     <div class="rating d-flex">
                         <p class="text-left mr-4">
                         <p style="color: #000;">2000 <span style="color: #bbb;">Hài lòng</span></p>
@@ -68,7 +68,7 @@
         </div>
         <div class="mota ml-4">
             <b>Mô tả chi tiết sản phẩm</b>
-            <p>{{$data->mo_ta_dai}}</p>
+            {!! $data->mo_ta_dai !!}
         </div>
     </section>
 

@@ -5,7 +5,9 @@ use App\Http\Controllers\ChiTietKhuyenMaiController;
 use App\Http\Controllers\ChiTietSanPhamController;
 use App\Http\Controllers\DanhMucSanPhamController;
 use App\Http\Controllers\DoanhThuAdminController;
+use App\Http\Controllers\DonHangController;
 use App\Http\Controllers\DonHangStoreController;
+use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\HomePageController;
 use App\Http\Controllers\KhuyenMaiController;
 use App\Http\Controllers\QuanLyThueAdminController;
@@ -17,11 +19,6 @@ use App\Http\Controllers\ThongTinController;
 use App\Http\Controllers\ThongTinCustomerController;
 use App\Http\Controllers\YeuCauDanhMucController;
 use App\Http\Controllers\YeuCauDMStoreController;
-use App\Models\ChiTietDonHang;
-use App\Models\DanhMucSanPhamControler;
-use App\Models\DoanhThuAdmin;
-use App\Models\DoanhThuStore;
-use App\Models\SanPham;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/login', [TaiKhoanController::class, 'indexlogin'])->name('login');
@@ -32,6 +29,10 @@ Route::get('/logout', [TaiKhoanController::class, 'Logout']);
 
 Route::get('/admin/login', [TaiKhoanController::class, 'indexAdmin']);
 Route::post('/admin/login', [TaiKhoanController::class, 'LoginAdmin']);
+
+Route::get('/login-google', [GoogleController::class, 'login_google']);
+Route::get('/google/callback', [GoogleController::class, 'callback_google']);
+
 
 Route::group(['prefix' => '/admin', 'middleware' => 'AdminMiddleWare'], function () {
     Route::get('/index', [TaiKhoanController::class, 'index']);
@@ -150,18 +151,20 @@ Route::group(['prefix' => '/store', 'middleware' => 'StoreMiddleware'], function
     });
 });
 Route::get('/', [HomePageController::class, 'index']);
-Route::get('/detail', [HomePageController::class, 'detail']);
 // Route::get('/data', [HomePageController::class, 'data']);
 Route::get('/chi-tiet/{id}', [ChiTietSanPhamController::class, 'ChiTietSP']);
 Route::get('/san-pham-sell', [SanPhamSellController::class, 'dataSell']);
 Route::get('/san-pham/{id}', [HomePageController::class, 'dataSP']);
 Route::post('/tim-kiem', [HomePageController::class, 'search']);
+Route::get('/active/{hash}', [TaiKhoanController::class, 'active']);
+
 
 
 
 Route::group(['prefix' => '/customer', 'middleware' => 'CustomerMiddleWare'], function () {
     Route::get('/don-hang', [HomePageController::class, 'indexDonHang']);
     Route::post('/add-to-cart', [HomePageController::class, 'addToCart']);
+    Route::post('/create-don-hang', [DonHangController::class, 'store']);
     Route::group(['prefix' => '/cart'], function () {
         Route::get('/index', [ChiTietDonHangController::class, 'indexCart']);
         Route::get('/data', [ChiTietDonHangController::class, 'dataCart']);
@@ -185,3 +188,4 @@ Route::group(['prefix' => '/customer', 'middleware' => 'CustomerMiddleWare'], fu
 Route::group(['prefix' => 'laravel-filemanager'], function () {
     \UniSharp\LaravelFilemanager\Lfm::routes();
 });
+

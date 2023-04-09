@@ -18,8 +18,8 @@ class HomePageController extends Controller
         $check = Auth::guard('TaiKhoan')->user();
         if ($check) {
             $oder = ChiTietDonHang::where('is_cart', 1)
-                                    ->where('chi_tiet_don_hangs.id')
-                                    ->get();
+                ->where('chi_tiet_don_hangs.id')
+                ->get();
             // dd($oder->toArray());
             $dem = 0;
             if ($oder) {
@@ -30,6 +30,7 @@ class HomePageController extends Controller
             }
         }
         return view('customer.home_page.index', compact('sanPham', 'danhMuc'));
+
     }
 
     // public function ChiTietSP($id){
@@ -56,16 +57,10 @@ class HomePageController extends Controller
         return view('customer.tim_kiem.index', compact('danhMuc', 'dataTimKiem'));
     }
 
-
-
-    public function detail()
-    {
-        return view('customer.chi_tiet_sp.index');
-    }
-
     public function indexDonHang()
     {
-        return view('customer.don_hang.index');
+        $danhMuc = DanhMucSanPham::all();
+        return view('customer.don_hang.index', compact('danhMuc'));
     }
 
     // add sản phẩm

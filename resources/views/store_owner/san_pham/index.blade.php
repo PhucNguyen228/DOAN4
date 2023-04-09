@@ -100,26 +100,20 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <div class="position-relative form-group">
                                 <label>Giá Bán</label>
                                 <input id="gia_ban" placeholder="Nhập vào giá bán" type="number" class="form-control">
                             </div>
                         </div>
-                        <div class="col-md-3">
-                            <fieldset class="form-group">
-                                <label>Giá Khuyến mãi</label>
-                                <input type="number" class="form-control" id="gia_khuyen_mai"
-                                    placeholder="Nhập vào giá khuyến mãi">
-                            </fieldset>
-                        </div>
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <div class="position-relative form-group">
                                 <label>Đơn Vị</label>
-                                <input id="don_vi" placeholder="Nhập vào đơn vị" type="text" class="form-control">
+                                <input id="don_vi" placeholder="Nhập vào đơn vị" type="text"
+                                    class="form-control">
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label>Hình Ảnh</label>
                                 <div class="input-group">
@@ -200,7 +194,6 @@
                                 <th class="text-nowrap text-center">Tên Sản Phẩm</th>
                                 <th class="text-nowrap text-center">Slug Sản Phẩm</th>
                                 <th class="text-nowrap text-center">Giá Bán</th>
-                                <th class="text-nowrap text-center">Giá khuyến mãi</th>
                                 <th class="text-nowrap text-center">Tình Trạng</th>
                                 <th class="text-nowrap text-center">Danh Mục</th>
                                 <th class="text-nowrap text-center">Action</th>
@@ -273,21 +266,14 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-4">
+                                <div class="col-md-6">
                                     <fieldset class="form-group">
                                         <label>Giá Bán</label>
                                         <input type="number" class="form-control" id="gia_ban_edit"
                                             placeholder="Nhập vào giá bán">
                                     </fieldset>
                                 </div>
-                                <div class="col-md-4">
-                                    <fieldset class="form-group">
-                                        <label>Giá Khuyến mãi</label>
-                                        <input type="number" class="form-control" id="gia_khuyen_mai_edit"
-                                            placeholder="Nhập vào giá khuyến mãi">
-                                    </fieldset>
-                                </div>
-                                <div class="col-md-4">
+                                <div class="col-md-6">
                                     <div class="position-relative form-group">
                                         <label>Đơn Vị</label>
                                         <input id="don_vi_edit" placeholder="Nhập vào đơn vị" type="text"
@@ -435,7 +421,6 @@
                             html += '<td>' + value.ten_san_pham + '</td>';
                             html += '<td>' + value.slug_san_pham + '</td>';
                             html += '<td>' + value.gia_ban + '</td>';
-                            html += '<td>' + value.gia_khuyen_mai + '</td>';
                             html += '<td>' + doan_muon_hien_thi + '</td>';
                             html += '<td>' + value.ten_danh_muc + '</td>';
                             html += '<td>';
@@ -461,7 +446,6 @@
                 var ten_san_pham = $("#ten_san_pham").val();
                 var slug_san_pham = $("#slug_san_pham").val();
                 var gia_ban = $("#gia_ban").val();
-                var gia_khuyen_mai = $("#gia_khuyen_mai").val();
                 var don_vi = $("#don_vi").val();
                 var anh_dai_dien = $("#hinh_anh").val();
                 var mo_ta_ngan = $("#mo_ta_ngan").val();
@@ -473,8 +457,7 @@
                     'ten_san_pham': ten_san_pham,
                     'slug_san_pham': slug_san_pham,
                     'gia_ban': gia_ban,
-                    'gia_khuyen_mai': gia_khuyen_mai,
-                    'don_vi': don_vi,
+                    'don_vi' : don_vi,
                     'anh_dai_dien': anh_dai_dien,
                     'mo_ta_ngan': mo_ta_ngan,
                     'mo_ta_dai': mo_ta_chi_tiet,
@@ -555,7 +538,6 @@
                             $("#ten_san_pham_edit").val(res.data.ten_san_pham);
                             $("#slug_san_pham_edit").val(res.data.slug_san_pham);
                             $("#gia_ban_edit").val(res.data.gia_ban);
-                            $("#gia_khuyen_mai_edit").val(res.data.gia_khuyen_mai);
                             $("#don_vi_edit").val(res.data.don_vi);
                             $("#hinh_anh_edit").val(res.data.anh_dai_dien);
                             $("#holder_edit").attr("src", res.data.anh_dai_dien);
@@ -582,8 +564,7 @@
                 var val_ten_san_pham = $("#ten_san_pham_edit").val();
                 var val_slug_san_pham = $("#slug_san_pham_edit").val();
                 var val_gia_ban = $("#gia_ban_edit").val();
-                var val_gia_khuyen_mai = $("#gia_khuyen_mai_edit").val();
-                var val_don_vi = $("#don_vi_edit").val();
+                var val_don_vi  = $("#don_vi_edit").val();
                 var val_hinh_anh = $("#hinh_anh_edit").val();
                 var val_mo_ta_ngan = $("#mo_ta_ngan_edit").val();
                 var val_mo_ta_chi_tiet = CKEDITOR.instances['mo_ta_chi_tiet_edit'].getData();
@@ -594,7 +575,7 @@
                     'ten_san_pham': val_ten_san_pham,
                     'slug_san_pham': val_slug_san_pham,
                     'gia_ban': val_gia_ban,
-                    'don_vi': val_don_vi,
+                    'don_vi' : val_don_vi,
                     'anh_dai_dien': val_hinh_anh,
                     'mo_ta_ngan': val_mo_ta_ngan,
                     'mo_ta_dai': val_mo_ta_chi_tiet,
