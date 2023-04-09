@@ -2,10 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Models\DoanhThuAdmin;
 use Illuminate\Database\Seeder;
 
-class DoanhThuAdminSeeder extends Seeder
+class ThongKeAdminSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,7 +13,6 @@ class DoanhThuAdminSeeder extends Seeder
      */
     public function run()
     {
-        //create date from table doanh_thu_admin
-        DoanhThuAdmin::factory(1000)->create();
+        //
     }
 }

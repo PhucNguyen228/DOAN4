@@ -262,6 +262,7 @@
                 });
                 $('body').on('click', '.delete', function() {
                     var getId = $(this).data('iddelete');
+                    console.log(getId);
                     $("#idDeleteDanhMuc").val(getId);
                 });
 
