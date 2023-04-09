@@ -13,8 +13,8 @@
     <!-- App css -->
     <link href="{{ asset('css/icons.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('css/app-creative.min.css') }}" rel="stylesheet" type="text/css" id="light-style" />
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/>
     <style>
         body.authentication-bg {
             background-image: url(https://lovefoodhatewaste.ca/wp-content/uploads/2020/11/FoodBackgroundNomeat.jpg);
@@ -60,6 +60,9 @@
                         <div class="form-group mb-0 text-center">
                             <button id="login" class="btn btn-primary btn-block" type="submit">Đăng nhập </button>
                         </div>
+                        <div class="form-group mb-0 text-center" style="margin-top: 5px">
+                            <a href="/login-google" class="btn btn-danger btn-block" type="submit">GOOGLE +</a>
+                        </div>
                     </form>
                     <!-- end form-->
 
@@ -100,8 +103,8 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script> --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script>
         $(document).ready(function(e) {
             $.ajaxSetup({
@@ -109,7 +112,6 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
-
             $("#login").click(function(e) {
                 e.preventDefault();
                 var email = $("#email").val();
@@ -126,17 +128,23 @@
                     success: function(res) {
                         if (res.status == 1) {
                             toastr.success('dang nhap thanh cong');
-                            setTimeout(function() {
-                                window.top.location = "/"
-                            }, 1000)
+                            setTimeout(function(){
+                                $(location).attr('href','http://127.0.0.1:8000');;
+                            }, 2000);
                         } else if (res.status == 2) {
                             toastr.success('dang nhap thanh cong');
                             setTimeout(function() {
                                 window.top.location = "/store/index"
                             }, 1000)
                         } else if (res.status == 3) {
-                            toastr.error('dang nhap that bai');
-                        } else {
+                            toastr.error('mức tài khoản đăng nhập không đúng ');
+                        }else if(res.status == 4){
+                            toastr.warning('mail chưa kích hoạt');
+                        }
+                        else if (res.status == 5){
+                            toastr.warning('trạng thái đã tắt');
+                        }
+                        else {
                             toastr.error('dang nhap that bai');
                         }
                     },

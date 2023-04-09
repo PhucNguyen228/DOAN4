@@ -9,7 +9,10 @@ use Illuminate\Http\Request;
 class ChiTietSanPhamController extends Controller
 {
     public function ChiTietSP($id){
-        $data = SanPham::where('san_phams.id', $id)->first();
+        $data = SanPham::join('tai_khoans','san_phams.id_tai_khoan','tai_khoans.id')
+                            ->where('san_phams.id', $id)
+                            ->select('san_phams.*','tai_khoans.ten_cua_hang')
+                            ->first();
         $danhMuc = DanhMucSanPham::all();
         $dataSP = SanPham::all();
         if($data)

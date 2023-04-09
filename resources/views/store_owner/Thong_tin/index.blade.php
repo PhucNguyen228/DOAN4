@@ -26,8 +26,13 @@
                 <div class="col-md-12">
 
                     <div class="form-group">
-
                         <input type="text" name="id" value="{{ $dataTKStore->id }}" hidden>
+                        <div class="controls">
+                            <label for="account-old-password">Tên cửa hàng</label>
+                            <input value="{{ $dataTKStore->ten_cua_hang }}" name="ten_cua_hang" type="text"
+                                class="form-control" id="ten_cua_hang">
+                            <div class="help-block"></div>
+                        </div>
                         <div class="controls">
                             <label for="account-old-password">Tên Tài Khoản</label>
                             <input value="{{ $dataTKStore->ten_tai_khoan }}" name="ten_tai_khoan" type="text"

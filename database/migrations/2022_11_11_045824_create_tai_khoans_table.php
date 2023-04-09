@@ -21,7 +21,10 @@ class CreateTaiKhoansTable extends Migration
             $table->string('password');
             $table->string('sdt');
             $table->string('dia_chi');
+            $table->string('ten_cua_hang')->nullable();
+            $table->integer('is_email')->default(0);
             $table->boolean('trang_thai')->default(1);
+            $table->string('hash');
             $table->timestamps();
         });
     }

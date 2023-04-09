@@ -14,7 +14,7 @@ class ThongTinController extends Controller
         $check = Auth::guard('TaiKhoan')->user();
         if($check){
             $dataTKStore = TaiKhoan::where('id', $check->id)
-                    ->select('tai_khoans.ten_tai_khoan','tai_khoans.email','tai_khoans.sdt','tai_khoans.dia_chi','tai_khoans.id')
+                    ->select('tai_khoans.*')
                     ->first();
             // dd($dataTKStore->toArray());
         return view('store_owner.Thong_tin.index',compact('dataTKStore'));
