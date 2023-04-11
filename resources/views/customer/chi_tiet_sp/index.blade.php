@@ -19,7 +19,7 @@
 
                     <button data-id="0" id="k_hailong" class="btn-khong-hai-long">Không Hài Lòng</button>
                     <h5>Tên cửa hàng:</h5>
-                    <h4 style="color: red">Bà tư rau sạch</h4>
+                    <h4 style="color: red">{{ $data->ten_cua_hang  }}</h4>
                     <form method="POST" autocomplete="off">
                         <div class="rating d-flex">
                             @csrf

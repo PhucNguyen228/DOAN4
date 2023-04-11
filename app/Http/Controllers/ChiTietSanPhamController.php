@@ -17,7 +17,11 @@ class ChiTietSanPhamController extends Controller
         $danh_gia_khong_hai_long = BinhLuanVaDanhGia::where('id_sp', $id)->where('muc_do_hai_long', 0)->count();
         // take id_sp, id_khach_hang
         $user = Auth::guard('TaiKhoan')->user();
-        $data = SanPham::where('san_phams.id', $id)->first();
+        // $data = SanPham::where('san_phams.id', $id)->first();
+        $data = SanPham::join('tai_khoans', 'san_phams.id_tai_khoan', 'tai_khoans.id')
+            ->where('san_phams.id', $id)
+            ->select('san_phams.*', 'tai_khoans.ten_cua_hang')
+            ->first();
         $danhMuc = DanhMucSanPham::where('yeu_cau', 1)->get();
         // join table binh_luan_va_danh_gias and tai_khoans to get name of user
         $data_danhGia_binhLuan_user = BinhLuanVaDanhGia::join('tai_khoans', 'tai_khoans.id', '=', 'binh_luan_va_danh_gias.id_khach_hang')
