@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SanPhamRequest;
 use App\Http\Requests\UpdateSanPhamRequest;
+use App\Models\BinhLuanVaDanhGia;
 use App\Models\DanhMucSanPham;
 use App\Models\DoanhThuAdmin;
 use App\Models\QuanLyThueAdmin;
@@ -18,17 +19,30 @@ class SanPhamController extends Controller
 {
     public function index()
     {
-        $han_can_thanh_toan = TaiKhoan::where('id', Auth::guard('TaiKhoan')->user()->id)->first();
-        $han_can_thanh_toan = $han_can_thanh_toan->updated_at;
-        // truy xuất dữ liệu từ bảng quan_ly_thue_admins và lấy Muc_thue
-        $muc_thue = QuanLyThueAdmin::where('Trang_thai', 1)->first();
-        $muc_thue = $muc_thue->Muc_thue;
-        $symbol = 'đ';
-        $symbol_thousand = '.';
-        $decimal_place = 0;
-        $price = number_format($muc_thue, $decimal_place, '', $symbol_thousand);
-        $price = $price . $symbol;
-        return view('store_owner.page_chinh.index', ['muc_thue' => $muc_thue, 'price' => $price, 'han_can_thanh_toan' => $han_can_thanh_toan]);
+        if (QuanLyThueAdmin::where('Trang_thai', 1)->first()) {
+            $han_can_thanh_toan = TaiKhoan::where('id', Auth::guard('TaiKhoan')->user()->id)->first();
+            $han_can_thanh_toan = $han_can_thanh_toan->updated_at;
+            // truy xuất dữ liệu từ bảng quan_ly_thue_admins và lấy Muc_thue
+            $muc_thue = QuanLyThueAdmin::where('Trang_thai', 1)->first();
+            $muc_thue = $muc_thue->Muc_thue;
+            $symbol = 'đ';
+            $symbol_thousand = '.';
+            $decimal_place = 0;
+            $price = number_format($muc_thue, $decimal_place, '', $symbol_thousand);
+            $price = $price . $symbol;
+            return view('store_owner.page_chinh.index', ['muc_thue' => $muc_thue, 'price' => $price, 'han_can_thanh_toan' => $han_can_thanh_toan]);
+        } else {
+            $han_can_thanh_toan = TaiKhoan::where('id', Auth::guard('TaiKhoan')->user()->id)->first();
+            $han_can_thanh_toan = $han_can_thanh_toan->updated_at;
+
+            $muc_thue = 0;
+            $symbol = 'đ';
+            $symbol_thousand = '.';
+            $decimal_place = 0;
+            $price = number_format($muc_thue, $decimal_place, '', $symbol_thousand);
+            $price = $price . $symbol;
+            return view('store_owner.page_chinh.index', ['muc_thue' => $muc_thue, 'price' => $price, 'han_can_thanh_toan' => $han_can_thanh_toan]);
+        }
     }
 
     public function create(Request $request)
@@ -207,15 +221,45 @@ class SanPhamController extends Controller
             return redirect("/login");
         }
     }
-    public function dataSP()
+    public function dataSP(Request $request)
     {
         $check = Auth::guard('TaiKhoan')->user();
         if ($check) {
             if ($check->muc == 2) {
+                // $data = SanPham::join('danh_muc_san_phams', 'san_phams.id_danh_muc', 'danh_muc_san_phams.id')
+                //     ->where('san_phams.id_tai_khoan', $check->id)
+                //     ->select('san_phams.id', 'san_phams.ten_san_pham', 'san_phams.slug_san_pham', 'san_phams.gia_ban', 'san_phams.gia_khuyen_mai', 'san_phams.is_open', 'danh_muc_san_phams.ten_danh_muc')
+                //     ->get();
+                // join 3 table SanPham, DanhMucSanPham, BinhLuanVaDanhGia
                 $data = SanPham::join('danh_muc_san_phams', 'san_phams.id_danh_muc', 'danh_muc_san_phams.id')
+                    ->join('binh_luan_va_danh_gias', 'san_phams.id', 'binh_luan_va_danh_gias.id_sp')
                     ->where('san_phams.id_tai_khoan', $check->id)
-                    ->select('san_phams.id', 'san_phams.ten_san_pham', 'san_phams.slug_san_pham', 'san_phams.gia_ban','san_phams.gia_khuyen_mai', 'san_phams.is_open', 'danh_muc_san_phams.ten_danh_muc')
-                    ->get();
+                    ->select(
+                        'san_phams.id',
+                        'san_phams.ten_san_pham',
+                        'san_phams.slug_san_pham',
+                        'san_phams.gia_ban',
+                        'san_phams.gia_khuyen_mai',
+                        'san_phams.is_open',
+                        'danh_muc_san_phams.ten_danh_muc',
+                        BinhLuanVaDanhGia::raw('SUM(muc_do_hai_long = 1) AS tong_hai_long_1'),
+                        BinhLuanVaDanhGia::raw('SUM(muc_do_hai_long = 0) AS tong_k_hai_long_0')
+                    )
+                    ->groupBy('san_phams.id');
+
+                if ($request->change_Asc_Desc == 'Asc') {
+                    $data = $data->orderBy('tong_hai_long_1', 'asc');
+                } else {
+                    $data = $data->orderBy('tong_hai_long_1', 'desc');
+                }
+                if ($request->change_Asc_Desc_2 == 'Asc2') {
+                    $data = $data->orderBy('tong_k_hai_long_0', 'asc');
+                } else {
+                    $data = $data->orderBy('tong_k_hai_long_0', 'desc');
+                }
+
+                $data = $data->get();
+
                 return response()->json([
                     'dataSP'    => $data,
                 ]);

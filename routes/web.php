@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BinhLuanVaDanhGiaController;
 use App\Http\Controllers\ChiTietDonHangController;
 use App\Http\Controllers\ChiTietKhuyenMaiController;
 use App\Http\Controllers\ChiTietSanPhamController;
@@ -89,7 +90,7 @@ Route::group(['prefix' => '/admin', 'middleware' => 'AdminMiddleWare'], function
 
 Route::group(['prefix' => '/store', 'middleware' => 'StoreMiddleware'], function () {
 
-    // testing .............
+    // testing ............. nop_thue
     Route::get('/index', [SanPhamController::class, 'index']);
     Route::post('/index', [SanPhamController::class, 'create'])->name('nop_tien');
     Route::post('/vnpay_payment', [SanPhamController::class, 'vnpay_payment']);
@@ -156,6 +157,11 @@ Route::get('/chi-tiet/{id}', [ChiTietSanPhamController::class, 'ChiTietSP']);
 Route::get('/san-pham-sell', [SanPhamSellController::class, 'dataSell']);
 Route::get('/san-pham/{id}', [HomePageController::class, 'dataSP']);
 Route::post('/tim-kiem', [HomePageController::class, 'search']);
+// phần đánh giá bình luận sản phẩm của khách hàng
+Route::post('/danh-gia', [BinhLuanVaDanhGiaController::class, 'create'])->name('tao_danh_gia');
+Route::post('/binh-luan', [BinhLuanVaDanhGiaController::class, 'update'])->name('tao_binh_luan');
+Route::get('/delete', [BinhLuanVaDanhGiaController::class, 'delete'])->name('xoa_binh_luan');
+Route::get('/edit', [BinhLuanVaDanhGiaController::class, 'edit'])->name('sua_binh_luan');
 
 
 

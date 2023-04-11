@@ -6,6 +6,7 @@ use App\Http\Requests\AddCartRequest;
 use App\Models\ChiTietDonHang;
 use App\Models\DanhMucSanPham;
 use App\Models\SanPham;
+use App\Models\TaiKhoan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -14,12 +15,12 @@ class HomePageController extends Controller
     public function index()
     {
         $sanPham = SanPham::all();
-        $danhMuc = DanhMucSanPham::all();
+        $danhMuc = DanhMucSanPham::where('yeu_cau', 1)->get();
         $check = Auth::guard('TaiKhoan')->user();
         if ($check) {
             $oder = ChiTietDonHang::where('is_cart', 1)
-                                    ->where('chi_tiet_don_hangs.id')
-                                    ->get();
+                ->where('chi_tiet_don_hangs.id')
+                ->get();
             // dd($oder->toArray());
             $dem = 0;
             if ($oder) {

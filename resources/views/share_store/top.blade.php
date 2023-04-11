@@ -3,7 +3,7 @@
         <div class="navbar-header">
             <ul class="nav navbar-nav flex-row">
                 <li class="nav-item mobile-menu d-md-none mr-auto"><a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#"><i class="feather icon-menu font-large-1"></i></a></li>
-                <li class="nav-item"><a class="navbar-brand" href="/admin/html/ltr/vertical-menu-template/index.html"><img class="brand-logo" alt="stack admin logo" src="/admin/app-assets/images/logo/stack-logo.png">
+                <li class="nav-item"><a class="navbar-brand" href="/store/index"><img class="brand-logo" alt="stack admin logo" src="/admin/app-assets/images/logo/stack-logo.png">
                         <h2 class="brand-text">Fresh Food</h2>
                     </a></li>
                 <li class="nav-item d-md-none"><a class="nav-link open-navbar-container" data-toggle="collapse" data-target="#navbar-mobile"><i class="fa fa-ellipsis-v"></i></a></li>
