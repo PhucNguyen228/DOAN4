@@ -1,4 +1,4 @@
-@extends('master_homepage')\
+@extends('master_homepage')
 @section('titel')
     <div style="text-align: center">
         <h4><b>Sản Phẩm</b></h4>

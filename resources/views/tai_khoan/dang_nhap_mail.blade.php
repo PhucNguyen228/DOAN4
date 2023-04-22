@@ -41,27 +41,17 @@
                     </div>
 
                     <!-- title-->
-                    <h4 class="mt-0">Đăng nhập</h4>
+                    <h4 class="mt-0">Quên mật khẩu</h4>
                     <p class="text-muted mb-4">Điền Email của bạn.</p>
 
                     <!-- form -->
-                    <form action="#">
+                    <form >
                         <div class="form-group">
                             <label for="email">Địa chỉ Email</label>
-                            <input class="form-control" type="email" id="email" placeholder="Enter your email">
-                        </div>
-                        <div class="form-group">
-                            <a href="/forgot" class="text-muted float-right"><small>Quên mật
-                                    khẩu</small></a>
-                            <label for="password">Mật khẩu</label>
-                            <input class="form-control" type="password" id="password"
-                                placeholder="Enter your password">
+                            <input name="email" class="form-control" type="email" id="email" placeholder="Enter your email">
                         </div>
                         <div class="form-group mb-0 text-center">
-                            <button id="login" class="btn btn-primary btn-block" type="submit">Đăng nhập </button>
-                        </div>
-                        <div class="form-group mb-0 text-center" style="margin-top: 5px">
-                            <a href="/login-google" class="btn btn-danger btn-block" type="submit">GOOGLE +</a>
+                            <button id="gui_mail" class="btn btn-primary btn-block" >Gửi mail</button>
                         </div>
                     </form>
                     <!-- end form-->
@@ -106,46 +96,24 @@
     {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script> --}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script>
-        $(document).ready(function(e) {
+         $(document).ready(function(e) {
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
-            $("#login").click(function(e) {
-                e.preventDefault();
+            $('#gui_mail').click(function(){
                 var email = $("#email").val();
-                var password = $("#password").val();
                 var payload = {
                     'email': email,
-                    'password': password,
                 };
-                console.log(payload);
                 $.ajax({
-                    url: '/login',
+                    url: '/forgot-password',
                     data: payload,
                     type: 'post',
                     success: function(res) {
-                        if (res.status == 1) {
-                            toastr.success('dang nhap thanh cong');
-                            setTimeout(function(){
-                                $(location).attr('href','http://127.0.0.1:8000');;
-                            }, 2000);
-                        } else if (res.status == 2) {
-                            toastr.success('dang nhap thanh cong');
-                            setTimeout(function() {
-                                window.top.location = "/store/index"
-                            }, 1000)
-                        } else if (res.status == 3) {
-                            toastr.error('mức tài khoản đăng nhập không đúng ');
-                        }else if(res.status == 4){
-                            toastr.warning('mail chưa kích hoạt');
-                        }
-                        else if (res.status == 5){
-                            toastr.warning('trạng thái đã tắt');
-                        }
-                        else {
-                            toastr.error('dang nhap that bai');
+                        if(res.status){
+                            toastr.success('Đã gửi mail');
                         }
                     },
                     error: function(res) {
@@ -156,8 +124,5 @@
                     }
                 });
             });
-        });
+         });
     </script>
-</body>
-
-</html>

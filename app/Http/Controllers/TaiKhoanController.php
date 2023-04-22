@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\TaiKhoan;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\loginRequest;
+use App\Http\Requests\QuenMKRequest;
 use App\Http\Requests\registerRequest;
+use App\Http\Requests\UpdatePassword;
+use App\Mail\MaiForgot;
 use App\Mail\MaiKichHoat;
 use App\Mail\MailKichHoat;
 use App\Models\DanhMucSanPham;
@@ -154,7 +157,7 @@ class TaiKhoanController extends Controller
                     } else {
                         return response()->json(['status' => 3]);
                     }
-                }else{
+                } else {
                     return response()->json(['status' => 4]);
                 }
             } else {
@@ -298,6 +301,41 @@ class TaiKhoanController extends Controller
             $customer->save();
             toastr()->success('Tài khoản của bạn đã được kích hoạt!');
         }
-        return redirect('/login');
+        return redirect("/login");
+    }
+
+    public function forgot(){
+        return view('tai_khoan.dang_nhap_mail');
+    }
+    public function forgotPassword(QuenMKRequest $request)
+    {
+        // $data = $request->email;
+        $check = TaiKhoan::where('email',$request->email)->first();
+        // dd($check);
+        if ($check) {
+            // $agent = Auth::guard('TaiKhoan')->user();
+            Mail::to($request->email)->send(new MaiForgot(
+                $check->ten_tai_khoan,
+                $check['hash'],
+                'Đặt lại mật khẩu'
+            ));
+        }
+        return response()->json([
+            'status' => true,
+        ]);
+    }
+    public function resetPassword($hash){
+        $customer = TaiKhoan::where('hash', $hash)->first();
+        return view('tai_khoan.update_password',compact('customer'));
+    }
+
+    public function updatePassword(UpdatePassword $request){
+        $data['password']   = bcrypt($request->password);
+        $tai_khoan = TaiKhoan::find($request->id);
+        // dd($tai_khoan);
+        $tai_khoan->update($data);
+        toastr()->success('Đã cập nhật password thành công!');
+        // return redirect('/login');
+         return redirect()->back();
     }
 }

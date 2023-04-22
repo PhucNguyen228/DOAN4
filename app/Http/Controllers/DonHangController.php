@@ -44,7 +44,6 @@ class DonHangController extends Controller
                         $sanPham = SanPham::find($value->san_pham_id);
                         // dd($sanPham);
                         if ($sanPham) {
-                            // $data = $bienNhanDuLieu->all();
                             $donHang = DonHang::create([
                                 'ma_don_hang'   => Str::uuid(),
                                 'ho_ten'        => $request->ho_ten,
@@ -58,31 +57,19 @@ class DonHangController extends Controller
                                 'ngay_hoa_don'  => date('Y-m-d'),
 
                             ]);
-                            // $giaBan = $sanPham->gia_khuyen_mai ? $sanPham->gia_khuyen_mai : $sanPham->gia_ban;
-                            // $donHang->tien_tra = $value->so_luong * $giaBan;
-                            // $donHang->tong_tien = $value->so_luong * $sanPham->gia_ban;
-                            // $donHang->tien_giam_gia = $donHang->tong_tien - $donHang->tien_tra;
-
-                            // $value->don_gia  = $giaBan;
                             $value->is_cart  = 0;
                             $value->hoa_don_id  = $donHang->id;
                             $value->save();
-                            // $donHang->save();
 
                         } else {
                             $value->delete();
                         }
                     }
-                    // $donHang->tong_tien = $tong_tien;
-                    // $donHang->tien_tra = $tien_tra;
-                    // $donHang->tien_giam_gia = $tong_tien - $tien_tra;
                     $donHang->save();
                     return response()->json(['status' => true]);
                 } else {
                     return response()->json(['status' => 2]);
                 }
-                // $value->delete();
-            // }
         }
     }
 }

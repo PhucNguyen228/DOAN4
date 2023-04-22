@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 class ThongTinCustomerController extends Controller
 {
     public function index(){
-        $danhMuc = DanhMucSanPham::all();
+        $danhMuc = DanhMucSanPham::where('yeu_cau', 1)->get();
         $check = Auth::guard('TaiKhoan')->user();
         if($check){
             $dataTK = TaiKhoan::where('id', $check->id)
