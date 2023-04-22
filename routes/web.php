@@ -27,6 +27,12 @@ Route::get('/register', [TaiKhoanController::class, 'register']);
 Route::post('/register', [TaiKhoanController::class, 'registerAction']);
 Route::get('/logout', [TaiKhoanController::class, 'Logout']);
 
+Route::get('/forgot', [TaiKhoanController::class, 'forgot']);
+Route::post('/forgot-password', [TaiKhoanController::class, 'forgotPassword']);
+Route::get('/reset-password/{hash}', [TaiKhoanController::class, 'resetPassword']);
+Route::post('/update-password', [TaiKhoanController::class, 'updatePassword']);
+
+
 Route::get('/admin/login', [TaiKhoanController::class, 'indexAdmin']);
 Route::post('/admin/login', [TaiKhoanController::class, 'LoginAdmin']);
 

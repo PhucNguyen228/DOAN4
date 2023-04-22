@@ -14,7 +14,7 @@ class HomePageController extends Controller
     public function index()
     {
         $sanPham = SanPham::all();
-        $danhMuc = DanhMucSanPham::all();
+        $danhMuc = DanhMucSanPham::where('yeu_cau', 1)->get();
         $check = Auth::guard('TaiKhoan')->user();
         if ($check) {
             $oder = ChiTietDonHang::where('is_cart', 1)
@@ -96,11 +96,12 @@ class HomePageController extends Controller
 
     public function dataSP(Request $request)
     {
+        // dd($request);
         $sanPham = SanPham::join('danh_muc_san_phams', 'danh_muc_san_phams.id', 'san_phams.id_danh_muc')
             ->where('danh_muc_san_phams.id', $request->id)
             ->select('san_phams.*')
             ->get();
-        $danhMuc = DanhMucSanPham::all();
+            $danhMuc = DanhMucSanPham::where('yeu_cau', 1)->get();
         return view('customer.san_pham_danh_muc.index', compact('sanPham', 'danhMuc'));
     }
 }

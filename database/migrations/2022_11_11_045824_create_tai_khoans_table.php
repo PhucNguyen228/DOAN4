@@ -25,6 +25,7 @@ class CreateTaiKhoansTable extends Migration
             $table->integer('is_email')->default(0);
             $table->boolean('trang_thai')->default(1);
             $table->string('hash');
+            // $table->rememberToken();
             $table->timestamps();
         });
     }

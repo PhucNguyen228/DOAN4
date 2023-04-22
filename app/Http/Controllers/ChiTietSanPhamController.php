@@ -13,7 +13,7 @@ class ChiTietSanPhamController extends Controller
                             ->where('san_phams.id', $id)
                             ->select('san_phams.*','tai_khoans.ten_cua_hang')
                             ->first();
-        $danhMuc = DanhMucSanPham::all();
+        $danhMuc = DanhMucSanPham::where('yeu_cau', 1)->get();
         $dataSP = SanPham::all();
         if($data)
         return view('customer.chi_tiet_sp.index', compact('data','danhMuc','dataSP'));
