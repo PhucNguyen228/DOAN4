@@ -247,7 +247,8 @@
             <circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4"
                 stroke-miterlimit="10" stroke="#F96D00" />
         </svg></div>
-    @include('share_page.js')
+        @include('share_page.js')
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     @yield('js')
     <script>
         $(document).ready(function(e) {
@@ -258,8 +259,9 @@
             });
 
             $(".addToCart").click(function() {
-                console.log(1231213);
+                // console.log(1231213);
                 var san_pham_id = $(this).data('id');
+                // console.log(san_pham_id);
                 var payload = {
                     'san_pham_id': san_pham_id,
                     'so_luong': 1,

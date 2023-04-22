@@ -6,12 +6,15 @@ use App\Models\TaiKhoan;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\loginRequest;
 use App\Http\Requests\registerRequest;
+use App\Mail\MaiKichHoat;
+use App\Mail\MailKichHoat;
 use App\Models\DanhMucSanPham;
 use App\Models\LoaiTaiKhoan;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 // Quản lý code đăng kí đăng nhập
 
@@ -119,8 +122,15 @@ class TaiKhoanController extends Controller
     public function registerAction(registerRequest $request)
     {
         $data = $request->all();
+        $data['hash'] = Str::uuid();
         $data['password']   = bcrypt($request->password);
         TaiKhoan::create($data);
+
+        Mail::to($request->email)->send(new MailKichHoat(
+            $request->ten_tai_khoan,
+            $data['hash'],
+            'Kích Hoạt Tài Khoản Đăng Ký'
+        ));
         return response()->json(['status' => true]);
     }
 
@@ -137,22 +147,25 @@ class TaiKhoanController extends Controller
         if ($check) {
             $agent = Auth::guard('TaiKhoan')->user();
             if ($agent->trang_thai == 1) {
-                if ($agent->muc == 1) {
-                    return response()->json(['status' => 1]);
-                } else if ($agent->muc == 2) {
-                    if ($agent->created_at == $agent->updated_at) {
-                        TaiKhoan::where('id', $agent->id)->update([
-                            'updated_at' => Carbon::now()->addMonth(1),
-                        ]);
+                if ($agent->is_email == 1) {
+                    if ($agent->muc == 1) {
+                        return response()->json(['status' => 1]);
+                    } else if ($agent->muc == 2) {
+                        if ($agent->created_at == $agent->updated_at) {
+                            TaiKhoan::where('id', $agent->id)->update([
+                                'updated_at' => Carbon::now()->addMonth(1),
+                            ]);
+                        }
+                        return response()->json(['status' => 2]);
                         return response()->json(['status' => 2]);
                     } else {
-                        return response()->json(['status' => 2]);
+                        return response()->json(['status' => 3]);
                     }
                 } else {
-                    return response()->json(['status' => 3]);
+                    return response()->json(['status' => 4]);
                 }
             } else {
-                toastr()->warning('trang thai da tat');
+                return response()->json(['status' => 5]);
             }
         } else {
             //Login thất bại
@@ -281,5 +294,17 @@ class TaiKhoanController extends Controller
             // return view('admin.login');
             return redirect("/admin/login");
         }
+    }
+    public function active($hash)
+    {
+        $customer = TaiKhoan::where('hash', $hash)->first();
+        if ($customer->is_email) {
+            toastr()->warning('Tài khoản của bạn đã được kích hoạt trước đó!');
+        } else {
+            $customer->is_email = 1;
+            $customer->save();
+            toastr()->success('Tài khoản của bạn đã được kích hoạt!');
+        }
+        return redirect('/login');
     }
 }

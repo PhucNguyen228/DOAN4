@@ -26,7 +26,7 @@
                     <div class="bottom-area d-flex px-3">
                         <div class="m-auto d-flex">
                             <a data-id="{{ $value_sp->id }}" href="#"
-                                class="buy-now d-flex justify-content-center align-items-center mx-1">
+                                class="buy-now d-flex justify-content-center align-items-center mx-1 addToCart">
                                 <span><i class="ion-ios-cart"></i></span>
                             </a>
                         </div>

@@ -69,15 +69,15 @@
                         <form action="#" class="info">
                             <div class="form-group">
                                 <label for="">Họ tên </label>
-                                <input type="text" class="form-control text-left px-3" placeholder="">
+                                <input id="ho_ten" type="text" class="form-control text-left px-3" placeholder="">
                             </div>
                             <div class="form-group">
                                 <label for="country">Số điện thoại</label>
-                                <input type="text" class="form-control text-left px-3" placeholder="">
+                                <input id="so_dien_thoai" type="text" class="form-control text-left px-3" placeholder="">
                             </div>
                             <div class="form-group">
                                 <label for="country">Địa chỉ nhận hàng</label>
-                                <input type="text" class="form-control text-left px-3" placeholder="">
+                                <input id="dia_chi" type="text" class="form-control text-left px-3" placeholder="">
                             </div>
                         </form>
                     </div>
@@ -100,7 +100,9 @@
                             <span id="TienTra"></span>
                         </p>
                     </div>
-                    <p><a href="checkout.html" class="btn btn-primary py-3 px-4">Đặt hàng</a></p>
+
+                    <p><a id="creatHoaDon"  href="#" class="btn btn-primary py-3 px-4">Đặt hàng</a></p>
+
                 </div>
             </div>
         </div>
@@ -108,22 +110,22 @@
 @endsection
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Xóa </h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Xóa </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Bạn có chắc chắn muốn xóa? Điều này không thể hoàn tác.
+                <input type="text" class="form-control" placeholder="Nhập vào id cần xóa" id="idDelete" hidden>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" id="accpectDelete" class="btn btn-danger" data-dismiss="modal">Xóa </button>
+            </div>
         </div>
-        <div class="modal-body">
-            Bạn có chắc chắn muốn xóa? Điều này không thể hoàn tác.
-            <input type="text" class="form-control" placeholder="Nhập vào id cần xóa" id="idDelete" hidden>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" id="accpectDelete" class="btn btn-danger" data-dismiss="modal">Xóa </button>
-        </div>
-      </div>
     </div>
 </div>
 @section('js')
@@ -154,7 +156,7 @@
                             content_table += '<td class="price">' + value.gia_ban + '</td>';
                             content_table +=
                                 ' <td ><div class="input-group mb-3"><input type="text" class="quantity form-control input-number" value="' +
-                                value.so_luong + '" data-id=' + value.id +
+                                value.so_luong + '" data-idsoluong=' + value.id +
                                 '></div></td>';
                             content_table += '<td class="total">' + formatNumber(value
                                 .so_luong * value.gia_ban) + '</td>';
@@ -188,7 +190,7 @@
             $("body").on('change', '.quantity', function() {
 
                 var payload = {
-                    'id': $(this).data('id'),
+                    'id': $(this).data('idsoluong'),
                     'so_luong': $(this).val(),
                 };
 
@@ -215,6 +217,7 @@
             });
             $('body').on('click', '.delete', function() {
                 var getId = $(this).data('iddelete');
+                console.log(getId);
                 $("#idDelete").val(getId);
             });
             $("#accpectDelete").click(function() {
@@ -231,6 +234,38 @@
                             loadTable();
                         } else {
                             toastr.error('không tồn tại!');
+                        }
+                    },
+                });
+            });
+            $("#creatHoaDon").click(function(e) {
+                e.preventDefault();
+                var ho_ten = $("#ho_ten").val();
+                var so_dien_thoai = $("#so_dien_thoai").val();
+                var dia_chi = $("#dia_chi").val();
+
+                var payload = {
+                    'ho_ten': ho_ten,
+                    'so_dien_thoai': so_dien_thoai,
+                    'dia_chi': dia_chi,
+                };
+
+                $.ajax({
+                    url: '/customer/create-don-hang',
+                    type: 'post',
+                    data: payload,
+                    success: function(res) {
+                        if (res.status == 1) {
+                            toastr.success("Đã tạo đơn hàng thành công!");
+                            // loadTable();
+                            setTimeout(function() {
+                                window.top.location = "/customer/cart/index"
+                            }, 1000)
+                        } else if (res.status == 0) {
+                            toastr.success("có lỗi xãy ra");
+
+                        } else {
+                            toastr.warning("giỏ hàng bị rỗng !")
                         }
                     },
                 });

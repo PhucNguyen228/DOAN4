@@ -107,19 +107,19 @@
                             </div>
                         </div>
                         <div class="col-md-3">
-                            <fieldset class="form-group">
-                                <label>Giá Khuyến mãi</label>
-                                <input type="number" class="form-control" id="gia_khuyen_mai"
-                                    placeholder="Nhập vào giá khuyến mãi">
-                            </fieldset>
-                        </div>
-                        <div class="col-md-3">
                             <div class="position-relative form-group">
-                                <label>Đơn Vị</label>
-                                <input id="don_vi" placeholder="Nhập vào đơn vị" type="text" class="form-control">
+                                <label>Giá Khuyến Mãi</label>
+                                <input id="gia_khuyen_mai" placeholder="Nhập vào giá khuyến mãi" type="number" class="form-control">
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
+                            <div class="position-relative form-group">
+                                <label>Đơn Vị</label>
+                                <input id="don_vi" placeholder="Nhập vào đơn vị" type="text"
+                                    class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label>Hình Ảnh</label>
                                 <div class="input-group">
@@ -286,7 +286,7 @@
                                 </div>
                                 <div class="col-md-4">
                                     <fieldset class="form-group">
-                                        <label>Giá Khuyến mãi</label>
+                                        <label>Giá Khuyến Mãi</label>
                                         <input type="number" class="form-control" id="gia_khuyen_mai_edit"
                                             placeholder="Nhập vào giá khuyến mãi">
                                     </fieldset>
@@ -595,7 +595,7 @@
                     'slug_san_pham': slug_san_pham,
                     'gia_ban': gia_ban,
                     'gia_khuyen_mai': gia_khuyen_mai,
-                    'don_vi': don_vi,
+                    'don_vi' : don_vi,
                     'anh_dai_dien': anh_dai_dien,
                     'mo_ta_ngan': mo_ta_ngan,
                     'mo_ta_dai': mo_ta_chi_tiet,
@@ -704,7 +704,7 @@
                 var val_slug_san_pham = $("#slug_san_pham_edit").val();
                 var val_gia_ban = $("#gia_ban_edit").val();
                 var val_gia_khuyen_mai = $("#gia_khuyen_mai_edit").val();
-                var val_don_vi = $("#don_vi_edit").val();
+                var val_don_vi  = $("#don_vi_edit").val();
                 var val_hinh_anh = $("#hinh_anh_edit").val();
                 var val_mo_ta_ngan = $("#mo_ta_ngan_edit").val();
                 var val_mo_ta_chi_tiet = CKEDITOR.instances['mo_ta_chi_tiet_edit'].getData();
@@ -715,7 +715,8 @@
                     'ten_san_pham': val_ten_san_pham,
                     'slug_san_pham': val_slug_san_pham,
                     'gia_ban': val_gia_ban,
-                    'don_vi': val_don_vi,
+                    'gia_khuyen_mai': val_gia_khuyen_mai,
+                    'don_vi' : val_don_vi,
                     'anh_dai_dien': val_hinh_anh,
                     'mo_ta_ngan': val_mo_ta_ngan,
                     'mo_ta_dai': val_mo_ta_chi_tiet,

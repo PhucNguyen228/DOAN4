@@ -11,8 +11,12 @@ class ChiTietDonHangController extends Controller
 {
     public function indexCart()
     {
-        $danhMuc = DanhMucSanPham::where('yeu_cau', 1)->get();
-        return view('customer.cart.index', compact('danhMuc'));
+        $danhMuc = DanhMucSanPham::all();
+        $agent = Auth::guard('TaiKhoan')->user();
+        if ($agent) {
+        $data   = ChiTietDonHang::all();
+        }
+        return view('customer.cart.index', compact('danhMuc','data'));
     }
     public function dataCart()
     {

@@ -11,20 +11,14 @@
                     <li class=" nav-item {{ request()->is('store/san-pham/index') ? 'active' : '' }}"><a
                             class="menu-item" href="/store/san-pham/index" data-i18n="eCommerce">Sản Phẩm</a>
                     </li>
-                    <li class=" nav-item {{ request()->is('store/khuyen-mai/index') ? 'active' : '' }}"><a
-                            class="menu-item" href="/store/khuyen-mai/index" data-i18n="eCommerce">Đợt Khuyến Mãi</a>
-                    </li>
-                    <li class=" nav-item {{ request()->is('store/ty-le/index') ? 'active' : '' }}"><a class="menu-item"
-                            href="/store/ty-le/index" data-i18n="eCommerce">Tỷ Lệ Khuyến Mãi</a>
-                    </li>
-                    <li class=" nav-item {{ request()->is('store/doanh-thu/index') ? 'active' : '' }}"><a
-                            class="menu-item" href="/store/doanh-thu/index" data-i18n="eCommerce">Đồ Thị Doanh Thu</a>
-                    </li>
-                    <li class=" nav-item {{ request()->is('store/thong-ke/index') ? 'active' : '' }}"><a
-                            class="menu-item" href="/store/thong-ke/index" data-i18n="eCommerce">Thống Kê</a>
-                    </li>
-                    <li class=" nav-item {{ request()->is('store/yeu-cau/index') ? 'active' : '' }}"><a
-                            class="menu-item" href="/store/yeu-cau/index" data-i18n="eCommerce">Yêu cầu danh mục</a>
+                    {{-- <li class=" nav-item {{ request()->is('store/khuyen-mai/index') ? 'active' : '' }}"><a class="menu-item"
+                        href="/store/khuyen-mai/index" data-i18n="eCommerce">Đợt Khuyến Mãi</a>
+                    </li> --}}
+                    {{-- <li class=" nav-item {{ request()->is('store/ty-le/index') ? 'active' : '' }}"><a class="menu-item"
+                        href="/store/ty-le/index" data-i18n="eCommerce">Tỷ Lệ Khuyến Mãi</a>
+                    </li> --}}
+                    <li class=" nav-item {{ request()->is('store/yeu-cau/index') ? 'active' : '' }}"><a class="menu-item"
+                        href="/store/yeu-cau/index" data-i18n="eCommerce">Yêu cầu danh mục</a>
                     </li>
                 </ul>
             </li>

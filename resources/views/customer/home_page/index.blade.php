@@ -154,7 +154,7 @@
                 @foreach ($sanPham as $key_sp => $value_sp)
                     <div class="col-md-6 col-lg-3 ftco-animate">
                         <div class="product">
-                            <a data-id="{{ $value_sp->id }}" href="/chi-tiet/{{ $value_sp->id }}" class="img-prod"><img
+                            <a  href="/chi-tiet/{{ $value_sp->id }}" class="img-prod"><img
                                     class="img-fluid" src="{{ $value_sp->anh_dai_dien }}" alt="Colorlib Template">
                                 <div class="overlay"></div>
                             </a>

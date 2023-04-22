@@ -18,6 +18,9 @@ class TaiKhoan extends Authenticatable
         'password',
         'sdt',
         'dia_chi',
+        'ten_cua_hang',
+        'is_email',
         'trang_thai',
+        'hash',
     ];
 }

@@ -22,6 +22,9 @@
             background-size: cover;
             background-position: center;
         }
+        .data{
+            display: none;
+        }
     </style>
 </head>
 
@@ -78,10 +81,18 @@
                             <label>Thể loại người dùng</label>
                             <select id="loai_TK"class="form-control">
                                 @foreach ($list_loai_TK as $value)
-                                    <option value={{$value->ma_loai}}> {{ $value->ten_loai }} </option>
+                                    <option value={{$value->ma_loai}}> {{ $value->ten_loai }}
+                                    </option>
                                 @endforeach
                             </select>
                         </div>
+
+                        <div id= "cua_hang" class="form-group data">
+                            <label for="fullname">Tên cửa hàng</label>
+                            <input class="form-control" type="text" id="ten_cua_hang" placeholder="Nhập tên cửa hàng" required>
+                        </div>
+
+
                         {{-- <div class="form-group">
                             <div class="custom-control custom-checkbox">
                                 <input type="checkbox" class="custom-control-input" id="agree">
@@ -128,7 +139,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
-
     <script>
         $(document).ready(function(e) {
             $.ajaxSetup({
@@ -136,6 +146,15 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
+            $("#loai_TK").on('change', function(){
+                var demovalue = $(this).val();
+                if(demovalue == 2){
+                  $(".data").show();
+                }else{
+                    $(".data").hide();
+                }
+            });
+
             $("#register").click(function(e) {
                 var payload = {
                     'ten_tai_khoan'     : $("#ten_tai_khoan").val(),
@@ -144,6 +163,7 @@
                     'password'          : $("#password").val(),
                     'sdt'               : $("#sdt").val(),
                     'dia_chi'           : $("#dia_chi").val(),
+                    'ten_cua_hang'      : $('#ten_cua_hang').val(),
                 };
                 $.ajax({
                     url     :   '/register',
