@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\AddCartRequest;
 use App\Models\ChiTietDonHang;
 use App\Models\DanhMucSanPham;
+use App\Models\DonHang;
 use App\Models\SanPham;
 use App\Models\TaiKhoan;
 use Illuminate\Http\Request;
@@ -20,6 +21,7 @@ class HomePageController extends Controller
         if ($check) {
             $oder = ChiTietDonHang::where('is_cart', 1)
                 ->where('chi_tiet_don_hangs.id')
+                ->where('agent_id', $check->id)
                 ->get();
             // dd($oder->toArray());
             $dem = 0;
@@ -31,7 +33,6 @@ class HomePageController extends Controller
             }
         }
         return view('customer.home_page.index', compact('sanPham', 'danhMuc'));
-
     }
 
     // public function ChiTietSP($id){
@@ -62,6 +63,17 @@ class HomePageController extends Controller
     {
         $danhMuc = DanhMucSanPham::all();
         return view('customer.don_hang.index', compact('danhMuc'));
+    }
+    public function dataDonHang()
+    {
+        $user = Auth::guard('TaiKhoan')->user();
+        $data = DonHang::join('chi_tiet_don_hangs', 'chi_tiet_don_hangs.hoa_don_id', 'don_hangs.id')
+            ->where('don_hangs.id_customer', $user->id)
+            ->select('don_hangs.*', 'chi_tiet_don_hangs.ten_san_pham','chi_tiet_don_hangs.so_luong')
+            ->get();
+        return response()->json([
+            'data'  => $data,
+        ]);
     }
 
     // add sản phẩm
@@ -102,7 +114,7 @@ class HomePageController extends Controller
             ->where('danh_muc_san_phams.id', $request->id)
             ->select('san_phams.*')
             ->get();
-            $danhMuc = DanhMucSanPham::where('yeu_cau', 1)->get();
+        $danhMuc = DanhMucSanPham::where('yeu_cau', 1)->get();
         return view('customer.san_pham_danh_muc.index', compact('sanPham', 'danhMuc'));
     }
 }
