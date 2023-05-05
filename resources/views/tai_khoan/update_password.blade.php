@@ -14,7 +14,7 @@
     <link href="{{ asset('css/icons.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('css/app-creative.min.css') }}" rel="stylesheet" type="text/css" id="light-style" />
     <meta name="csrf-token" content="{{ csrf_token() }}" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
     <style>
         body.authentication-bg {
             background-image: url(https://lovefoodhatewaste.ca/wp-content/uploads/2020/11/FoodBackgroundNomeat.jpg);
@@ -41,33 +41,35 @@
                     </div>
 
                     <!-- title-->
-                    <h4 class="mt-0">Đăng nhập</h4>
+                    <h4 class="mt-0">Quên mật khẩu</h4>
                     <p class="text-muted mb-4">Điền Email của bạn.</p>
 
                     <!-- form -->
-                    <form action="#">
+                    @if ($errors->any())
+                        @foreach ($errors->all() as $key => $value)
+                            <div class="alert alert-danger" role="alert">
+                                {{ $value }}
+                            </div>
+                        @endforeach
+                    @endif
+                    <form autocomplete="off" method="post" action="/update-password">
+                        @csrf
+                        <input type="text" name="id" value="{{ $customer->id }}" hidden>
                         <div class="form-group">
-                            <label for="email">Địa chỉ Email</label>
-                            <input class="form-control" type="email" id="email" placeholder="Enter your email">
-                        </div>
-                        <div class="form-group">
-                            <a href="/forgot" class="text-muted float-right"><small>Quên mật
-                                    khẩu</small></a>
                             <label for="password">Mật khẩu</label>
-                            <input class="form-control" type="password" id="password"
+                            <input name="password" class="form-control" type="password"
                                 placeholder="Enter your password">
                         </div>
                         <div class="form-group mb-0 text-center">
-                            <button id="login" class="btn btn-primary btn-block" type="submit">Đăng nhập </button>
-                        </div>
-                        <div class="form-group mb-0 text-center" style="margin-top: 5px">
-                            <a href="/login-google" class="btn btn-danger btn-block" type="submit">GOOGLE +</a>
+                            <button class="btn btn-primary btn-block" type="submit">OK</button>
                         </div>
                     </form>
                     <!-- end form-->
 
                     <!-- Footer-->
                     <footer class="footer footer-alt">
+                        <p class="text-muted">Bạn đã có tài khoản? <a href="/login" class="text-muted ml-1"><b>Đăng
+                            nhập</b></a></p>
                         <p class="text-muted">Bạn chưa có tài khoản? <a href="/register" class="text-muted ml-1"><b>Đăng
                                     ký</b></a></p>
                     </footer>
@@ -103,61 +105,15 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
-    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script> --}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script> --}}
     <script>
-        $(document).ready(function(e) {
+        $(document).ready(function() {
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
-            $("#login").click(function(e) {
-                e.preventDefault();
-                var email = $("#email").val();
-                var password = $("#password").val();
-                var payload = {
-                    'email': email,
-                    'password': password,
-                };
-                console.log(payload);
-                $.ajax({
-                    url: '/login',
-                    data: payload,
-                    type: 'post',
-                    success: function(res) {
-                        if (res.status == 1) {
-                            toastr.success('dang nhap thanh cong');
-                            setTimeout(function(){
-                                $(location).attr('href','http://127.0.0.1:8000');;
-                            }, 2000);
-                        } else if (res.status == 2) {
-                            toastr.success('dang nhap thanh cong');
-                            setTimeout(function() {
-                                window.top.location = "/store/index"
-                            }, 1000)
-                        } else if (res.status == 3) {
-                            toastr.error('mức tài khoản đăng nhập không đúng ');
-                        }else if(res.status == 4){
-                            toastr.warning('mail chưa kích hoạt');
-                        }
-                        else if (res.status == 5){
-                            toastr.warning('trạng thái đã tắt');
-                        }
-                        else {
-                            toastr.error('dang nhap that bai');
-                        }
-                    },
-                    error: function(res) {
-                        var danh_sach_loi = res.responseJSON.errors;
-                        $.each(danh_sach_loi, function(key, value) {
-                            toastr.error(value[0]);
-                        });
-                    }
-                });
-            });
         });
     </script>
 </body>
-
-</html>

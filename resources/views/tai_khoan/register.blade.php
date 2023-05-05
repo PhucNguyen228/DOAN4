@@ -172,6 +172,9 @@
                     success :   function(res) {
                         if(res.status){
                             toastr.success("Bạn đã đăng kí tài khoản thành công !!!");
+                            setTimeout(function() {
+                                window.top.location = "/login"
+                            }, 1000)
                         }
                     },
                     error   :   function(res) {
