@@ -12,7 +12,7 @@
         <div class="table-response">
             <div class="main-card mb-3 card">
                 <div class="card-body" style="overflow-x:auto;">
-                    <table style="text-align: center" class="mb-0 table table-bordered" id="tableSanPham" >
+                    <table style="text-align: center" class="mb-0 table table-bordered" id="tableSanPham">
                         <thead>
                             <tr>
                                 <th class="text-nowrap text-center">#</th>
@@ -25,19 +25,66 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <th class="text-nowrap text-center">1</th>
-                                <th class="text-nowrap text-center">Đặng Ngọc Thơm</th>
-                                <th class="text-nowrap text-center">29d5cdc4-15e5-421a-a237-597ef2e341d2</th>
-                                <th class="text-nowrap text-center">củ cải , <b>số lượng :</b> 2</th>
-                                <th class="text-nowrap text-center">60000</th>
-                                <th class="text-nowrap text-center">58 hòa minh 7, Phường Hòa Minh, Quận Liên Chiểu, TP.Đà Nẵng</th>
-                                <th class="text-nowrap text-center"><button style="background: red;color: white">Xác Nhận</button></th>
-                            </tr>
+
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
     </div>
+@endsection
+@section('js')
+    <script>
+        $(document).ready(function() {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            function loadTable() {
+                $.ajax({
+                    url: '/store/don-hang/cho-xac-nhan/data',
+                    type: 'get',
+                    success: function(res) {
+                        var html = '';
+
+                        $.each(res.data, function(key, value) {
+                            if (value.tinh_trang == 1) {
+                                var doan_muon_hien_thi =
+                                    '<button class="btn btn-primary status" data-id="' +
+                                    value.id + '">Xác Nhận</button>';
+                            }
+
+                            html += '<tr>';
+                            html += '<th scope="row">' + (key + 1) + '</th>';
+                            html += '<th class="text-nowrap text-center">'+ value.ho_ten +'</th>';
+                            html += '<th class="text-nowrap text-center">'+ value.ma_don_hang +'</th>';
+                            html += '<th class="text-nowrap text-center">'+ value.ten_san_pham +' , <b>số lượng :</b> '+ value.so_luong +'</th>';
+                            html += '<th class="text-nowrap text-center">'+ value.tien_tra +'</th>';
+                            html += '<th class="text-nowrap text-center">'+ value.dia_chi +'</th>';
+                            html += '<td>' + doan_muon_hien_thi + '</td>';
+                            html += '</tr>';
+                        });
+                        $("#tableSanPham tbody").html(html);
+
+                    },
+                });
+            }
+            loadTable();
+            $('body').on('click', '.status', function() {
+                var id = $(this).data('id');
+                $.ajax({
+                    url: '/store/don-hang/tinh-trang/' + id,
+                    type: 'get',
+                    success: function(res) {
+                        if (res.status) {
+                            toastr.success('đã xác nhận thành công');
+                            loadTable();
+                        }
+                    },
+                });
+            });
+        });
+    </script>
 @endsection
