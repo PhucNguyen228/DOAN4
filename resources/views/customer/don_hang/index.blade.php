@@ -18,15 +18,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <th class="text-nowrap text-center">1</th>
-                                <th class="text-nowrap text-center">29d5cdc4-15e5-421a-a237-597ef2e341d2</th>
-                                <th class="text-nowrap text-center">củ cải , <b>số lượng :</b> 2</th>
-                                <th class="text-nowrap text-center">60000</th>
-                                <th class="text-nowrap text-center">58 hòa minh 7, Phường Hòa Minh, Quận Liên Chiểu, TP.Đà Nẵng</th>
-                                <th class="text-nowrap text-center" style="color: green">đang chờ xác nhận</th>
-                                <th class="text-nowrap text-center"><button style="background: red;color: white">Hủy</button></th>
-                            </tr>
+
                         </tbody>
                     </table>
                 </div>
@@ -35,5 +27,45 @@
     </div>
 @endsection
 @section('js')
+    <script>
+        $(document).ready(function(){
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            function loadTable() {
+                $.ajax({
+                    url: '/customer/don-hang/data',
+                    type: 'get',
+                    success: function(res) {
+                        var html = '';
 
+                        $.each(res.data, function(key, value) {
+                            if (value.tinh_trang == 1) {
+                                var doan_muon_hien_thi =
+                                    '<p class="text-nowrap text-center" style="color: green">đang chờ xác nhận</p>';
+                            }else if(value.tinh_trang == 2){
+                                var doan_muon_hien_thi =
+                                    '<p class="text-nowrap text-center" style="color: green">Đã xác nhận</p>';
+                            }
+
+                            html += '<tr>';
+                            html += '<th scope="row">' + (key + 1) + '</th>';
+                            html += '<th class="text-nowrap text-center">'+ value.ma_don_hang +'</th>';
+                            html += '<th class="text-nowrap text-center">'+ value.ten_san_pham +' , <b>số lượng :</b> '+ value.so_luong +'</th>';
+                            html += '<th class="text-nowrap text-center">'+ value.tien_tra +'</th>';
+                            html += '<th class="text-nowrap text-center">'+ value.dia_chi +'</th>';
+                            html += '<th>' + doan_muon_hien_thi + '</th>';
+                            html += '<th class="text-nowrap text-center"><button style="background: red;color: white">Hủy</button></th>';
+                            html += '</tr>';
+                        });
+                        $("#tableSanPham tbody").html(html);
+
+                    },
+                });
+            }
+            loadTable();
+        })
+    </script>
 @endsection

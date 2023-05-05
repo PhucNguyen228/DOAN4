@@ -50,7 +50,7 @@ class DonHangController extends Controller
                                 'so_dien_thoai' => $request->so_dien_thoai,
                                 'dia_chi'       => $request->dia_chi,
                                 'tong_tien'     => $value->so_luong * $value->gia_ban,
-                                'tien_giam_gia' => $value->tong_tien - $value->tien_tra,
+                                'tien_giam_gia' => ($value->so_luong * $value->gia_ban) - ($value->so_luong * $value->don_gia),
                                 'tien_tra'      => $value->so_luong * $value->don_gia,
                                 'id_customer'   => $agent->id,
                                 'tinh_trang'    => 1,

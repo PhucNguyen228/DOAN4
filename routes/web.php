@@ -151,6 +151,8 @@ Route::group(['prefix' => '/store', 'middleware' => 'StoreMiddleware'], function
     });
     Route::group(['prefix' => '/don-hang'], function () {
         Route::get('/cho-xac-nhan', [DonHangStoreController::class, 'indexXacNhan']);
+        Route::get('/cho-xac-nhan/data', [DonHangStoreController::class, 'dataXacNhan']);
+        Route::get('/tinh-trang/{id}', [DonHangStoreController::class, 'tinhTrang']);
         Route::get('/da-xac-nhan', [DonHangStoreController::class, 'indexDaXacNhan']);
         Route::get('/dang-chuyen', [DonHangStoreController::class, 'indexDangChuyen']);
         Route::get('/da-giao', [DonHangStoreController::class, 'indexDaGiao']);
@@ -169,6 +171,7 @@ Route::get('/active/{hash}', [TaiKhoanController::class, 'active']);
 
 Route::group(['prefix' => '/customer', 'middleware' => 'CustomerMiddleWare'], function () {
     Route::get('/don-hang', [HomePageController::class, 'indexDonHang']);
+    Route::get('/don-hang/data', [HomePageController::class, 'dataDonHang']);
     Route::post('/add-to-cart', [HomePageController::class, 'addToCart']);
     Route::post('/create-don-hang', [DonHangController::class, 'store']);
     Route::group(['prefix' => '/cart'], function () {

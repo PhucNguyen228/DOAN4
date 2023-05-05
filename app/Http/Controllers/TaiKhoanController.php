@@ -307,23 +307,7 @@ class TaiKhoanController extends Controller
     public function forgot(){
         return view('tai_khoan.dang_nhap_mail');
     }
-    public function forgotPassword(QuenMKRequest $request)
-    {
-        // $data = $request->email;
-        $check = TaiKhoan::where('email',$request->email)->first();
-        // dd($check);
-        if ($check) {
-            // $agent = Auth::guard('TaiKhoan')->user();
-            Mail::to($request->email)->send(new MaiForgot(
-                $check->ten_tai_khoan,
-                $check['hash'],
-                'Đặt lại mật khẩu'
-            ));
-        }
-        return response()->json([
-            'status' => true,
-        ]);
-    }
+    
     public function resetPassword($hash){
         $customer = TaiKhoan::where('hash', $hash)->first();
         return view('tai_khoan.update_password',compact('customer'));
