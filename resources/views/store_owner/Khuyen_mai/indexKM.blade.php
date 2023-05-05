@@ -201,7 +201,7 @@
                         'ngay_kt': val_ngay_kt,
                         'trang_thai': val_trang_thai,
                     };
-                    
+
                     $.ajax({
                         url: '/store/khuyen-mai/index',
                         type: 'post',

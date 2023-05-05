@@ -14,6 +14,4 @@ class SanPhamSellController extends Controller
         $danhMuc = DanhMucSanPham::where('yeu_cau', 1)->get();
         return view('customer.san_pham_sell.index', compact('danhMuc', 'dataSell'));
     }
-
-
 }

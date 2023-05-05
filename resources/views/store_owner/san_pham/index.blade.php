@@ -201,6 +201,10 @@
                                 <th class="text-nowrap text-center">Slug Sản Phẩm</th>
                                 <th class="text-nowrap text-center">Giá Bán</th>
                                 <th class="text-nowrap text-center">Giá khuyến mãi</th>
+                                <th class="text-nowrap text-center">Hài lòng <button class="btn_change"
+                                        id="Desc">Click</button></th>
+                                <th class="text-nowrap text-center">Không hài lòng <button class="btn_change_2"
+                                        id="Asc2">Click</button></th>
                                 <th class="text-nowrap text-center">Tình Trạng</th>
                                 <th class="text-nowrap text-center">Danh Mục</th>
                                 <th class="text-nowrap text-center">Action</th>
@@ -418,6 +422,7 @@
                     type: 'get',
                     success: function(res) {
                         var html = '';
+                        console.log(res.dataSP);
 
                         $.each(res.dataSP, function(key, value) {
                             if (value.is_open == true) {
@@ -436,6 +441,8 @@
                             html += '<td>' + value.slug_san_pham + '</td>';
                             html += '<td>' + value.gia_ban + '</td>';
                             html += '<td>' + value.gia_khuyen_mai + '</td>';
+                            html += '<td>' + value.tong_hai_long_1 + '</td>';
+                            html += '<td>' + value.tong_k_hai_long_0 + '</td>';
                             html += '<td>' + doan_muon_hien_thi + '</td>';
                             html += '<td>' + value.ten_danh_muc + '</td>';
                             html += '<td>';
@@ -455,6 +462,120 @@
                     },
                 });
             }
+
+            $('.btn_change_2').click(function(e) {
+                if ($('#Asc2').attr('id') == 'Asc2') {
+                    $('#Asc2').attr('id', 'Desc2');
+                } else {
+                    $('#Desc2').attr('id', 'Asc2');
+                }
+                var change_Asc_Desc_2 = $(this).attr('id');
+                console.log(change_Asc_Desc_2);
+                $.ajax({
+                    url: '/store/san-pham/dataSP',
+                    type: 'get',
+                    data: {
+                        change_Asc_Desc_2: change_Asc_Desc_2
+                    },
+                    success: function(res) {
+                        var html = '';
+                        console.log(res.dataSP);
+
+                        $.each(res.dataSP, function(key, value) {
+                            if (value.is_open == true) {
+                                var doan_muon_hien_thi =
+                                    '<button class="btn btn-primary status" data-id="' +
+                                    value.id + '">Hiển Thị</button>';
+                            } else {
+                                var doan_muon_hien_thi =
+                                    '<button class="btn btn-danger status" data-id="' +
+                                    value.id + '">Tạm Tắt</button>';
+                            }
+
+                            html += '<tr>';
+                            html += '<th scope="row">' + (key + 1) + '</th>';
+                            html += '<td>' + value.ten_san_pham + '</td>';
+                            html += '<td>' + value.slug_san_pham + '</td>';
+                            html += '<td>' + value.gia_ban + '</td>';
+                            html += '<td>' + value.gia_khuyen_mai + '</td>';
+                            html += '<td>' + value.tong_hai_long_1 + '</td>';
+                            html += '<td>' + value.tong_k_hai_long_0 + '</td>';
+                            html += '<td>' + doan_muon_hien_thi + '</td>';
+                            html += '<td>' + value.ten_danh_muc + '</td>';
+                            html += '<td>';
+                            html +=
+                                '<button class="btn btn-danger delete mr-1" data-iddelete="' +
+                                value.id +
+                                '" data-toggle="modal" data-target="#exampleModal"> Xóa </button>';
+                            html +=
+                                '<button class="btn btn-success edit" data-idedit="' +
+                                value.id +
+                                '" data-toggle="modal" data-target="#inlineForm"> Chỉnh sửa </button>';
+                            html += '</td>';
+                            html += '</tr>';
+                        });
+                        $("#tableSanPham tbody").html(html);
+
+                    },
+                });
+            });
+            $('.btn_change').click(function(e) {
+                if ($('#Asc').attr('id') == 'Asc') {
+                    $('#Asc').attr('id', 'Desc');
+                } else {
+                    $('#Desc').attr('id', 'Asc');
+                }
+                var change_Asc_Desc = $(this).attr('id');
+                console.log(change_Asc_Desc);
+                $.ajax({
+                    url: '/store/san-pham/dataSP',
+                    type: 'get',
+                    data: {
+                        change_Asc_Desc: change_Asc_Desc
+                    },
+                    success: function(res) {
+                        var html = '';
+                        console.log(res.dataSP);
+
+                        $.each(res.dataSP, function(key, value) {
+                            if (value.is_open == true) {
+                                var doan_muon_hien_thi =
+                                    '<button class="btn btn-primary status" data-id="' +
+                                    value.id + '">Hiển Thị</button>';
+                            } else {
+                                var doan_muon_hien_thi =
+                                    '<button class="btn btn-danger status" data-id="' +
+                                    value.id + '">Tạm Tắt</button>';
+                            }
+
+                            html += '<tr>';
+                            html += '<th scope="row">' + (key + 1) + '</th>';
+                            html += '<td>' + value.ten_san_pham + '</td>';
+                            html += '<td>' + value.slug_san_pham + '</td>';
+                            html += '<td>' + value.gia_ban + '</td>';
+                            html += '<td>' + value.gia_khuyen_mai + '</td>';
+                            html += '<td>' + value.tong_hai_long_1 + '</td>';
+                            html += '<td>' + value.tong_k_hai_long_0 + '</td>';
+                            html += '<td>' + doan_muon_hien_thi + '</td>';
+                            html += '<td>' + value.ten_danh_muc + '</td>';
+                            html += '<td>';
+                            html +=
+                                '<button class="btn btn-danger delete mr-1" data-iddelete="' +
+                                value.id +
+                                '" data-toggle="modal" data-target="#exampleModal"> Xóa </button>';
+                            html +=
+                                '<button class="btn btn-success edit" data-idedit="' +
+                                value.id +
+                                '" data-toggle="modal" data-target="#inlineForm"> Chỉnh sửa </button>';
+                            html += '</td>';
+                            html += '</tr>';
+                        });
+                        $("#tableSanPham tbody").html(html);
+
+                    },
+                });
+            });
+
             loadTable();
             $("#createSanPham").click(function(e) {
                 e.preventDefault();

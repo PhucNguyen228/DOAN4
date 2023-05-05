@@ -1,10 +1,12 @@
 <?php
 
+use App\Http\Controllers\BinhLuanVaDanhGiaController;
 use App\Http\Controllers\ChiTietDonHangController;
 use App\Http\Controllers\ChiTietKhuyenMaiController;
 use App\Http\Controllers\ChiTietSanPhamController;
 use App\Http\Controllers\DanhMucSanPhamController;
 use App\Http\Controllers\DoanhThuAdminController;
+use App\Http\Controllers\DoanhThuStoreController;
 use App\Http\Controllers\DonHangController;
 use App\Http\Controllers\DonHangStoreController;
 use App\Http\Controllers\GoogleController;
@@ -96,7 +98,7 @@ Route::group(['prefix' => '/admin', 'middleware' => 'AdminMiddleWare'], function
 
 Route::group(['prefix' => '/store', 'middleware' => 'StoreMiddleware'], function () {
 
-    // testing .............
+    // testing ............. nop_thue
     Route::get('/index', [SanPhamController::class, 'index']);
     Route::post('/index', [SanPhamController::class, 'create'])->name('nop_tien');
     Route::post('/vnpay_payment', [SanPhamController::class, 'vnpay_payment']);
@@ -138,11 +140,18 @@ Route::group(['prefix' => '/store', 'middleware' => 'StoreMiddleware'], function
 
     //DOANH THU
     Route::group(['prefix' => '/doanh-thu-store'], function () {
-        Route::get('/index', [DoanhThuStore::class, 'index']);
-        Route::post('/index', [DoanhThuStore::class, 'testing'])->name('testing');
-        Route::post('/filter', [DoanhThuStore::class, 'filter'])->name('store.doanh_thu.filter');
-        Route::post('/dashboard-filter', [DoanhThuStore::class, 'dashboard_filter'])->name('dashboard_filter');
+        Route::get('/index', [DoanhThuStoreController::class, 'index']);
+        Route::post('/index', [DoanhThuStoreController::class, 'testing'])->name('testing1');
+        Route::post('/filter', [DoanhThuStoreController::class, 'filter'])->name('store.doanh_thu.filter');
+        Route::post('/dashboard-filter', [DoanhThuStoreController::class, 'dashboard_filter'])->name('dashboard_filter_store');
     });
+
+    // THONG KE
+    // Route::group(['prefix' => '/thong-ke-admin'], function () {
+    //     Route::get('/index', [::class, 'index']);
+    //     Route::post('/filter', [::class, 'filter'])->name('store.thong_ke.filter');
+    //     // Route::post('/dashboard-filter', [DoanhThuAdminController::class, 'dashboard_filter'])->name('dashboard__filter');
+    // });
 
     Route::group(['prefix' => '/yeu-cau'], function () {
         Route::get('/index', [YeuCauDMStoreController::class, 'index']);
@@ -165,7 +174,11 @@ Route::get('/san-pham-sell', [SanPhamSellController::class, 'dataSell']);
 Route::get('/san-pham/{id}', [HomePageController::class, 'dataSP']);
 Route::post('/tim-kiem', [HomePageController::class, 'search']);
 Route::get('/active/{hash}', [TaiKhoanController::class, 'active']);
-
+// phần đánh giá bình luận sản phẩm của khách hàng
+Route::post('/danh-gia', [BinhLuanVaDanhGiaController::class, 'create'])->name('tao_danh_gia');
+Route::post('/binh-luan', [BinhLuanVaDanhGiaController::class, 'update'])->name('tao_binh_luan');
+Route::get('/delete', [BinhLuanVaDanhGiaController::class, 'delete'])->name('xoa_binh_luan');
+Route::get('/edit', [BinhLuanVaDanhGiaController::class, 'edit'])->name('sua_binh_luan');
 
 
 
@@ -197,4 +210,3 @@ Route::group(['prefix' => '/customer', 'middleware' => 'CustomerMiddleWare'], fu
 Route::group(['prefix' => 'laravel-filemanager'], function () {
     \UniSharp\LaravelFilemanager\Lfm::routes();
 });
-

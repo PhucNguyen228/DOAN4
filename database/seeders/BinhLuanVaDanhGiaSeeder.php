@@ -2,10 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Models\DoanhThuStore;
 use Illuminate\Database\Seeder;
 
-class DoanhThuStoreSeeder extends Seeder
+class BinhLuanVaDanhGiaSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,6 +13,6 @@ class DoanhThuStoreSeeder extends Seeder
      */
     public function run()
     {
-        DoanhThuStore::factory(1000)->create();
+        //
     }
 }

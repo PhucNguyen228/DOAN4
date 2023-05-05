@@ -14,6 +14,7 @@ use App\Mail\MailKichHoat;
 use App\Models\DanhMucSanPham;
 use App\Models\LoaiTaiKhoan;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
@@ -107,7 +108,7 @@ class TaiKhoanController extends Controller
             if ($agent->muc == 0) {
                 Auth::guard('TaiKhoan')->logout();
                 return redirect("/admin/login");
-            } elseif ($agent->muc == 2) {
+            } elseif ($agent->muc == 2 || $agent->muc == -1) {
                 Auth::guard('TaiKhoan')->logout();
                 return redirect("/login");
             } elseif ($agent->muc == 1) {
@@ -153,6 +154,12 @@ class TaiKhoanController extends Controller
                     if ($agent->muc == 1) {
                         return response()->json(['status' => 1]);
                     } else if ($agent->muc == 2) {
+                        if ($agent->created_at == $agent->updated_at) {
+                            TaiKhoan::where('id', $agent->id)->update([
+                                'updated_at' => Carbon::now()->addMonth(1),
+                            ]);
+                        }
+                        return response()->json(['status' => 2]);
                         return response()->json(['status' => 2]);
                     } else {
                         return response()->json(['status' => 3]);
@@ -299,27 +306,46 @@ class TaiKhoanController extends Controller
         } else {
             $customer->is_email = 1;
             $customer->save();
-            toastr()->success('Tài khoản của bạn đã được kích hoạt!');
+            // toastr()->success('Tài khoản của bạn đã được kích hoạt!');
         }
         return redirect("/login");
     }
 
-    public function forgot(){
+    public function forgot()
+    {
         return view('tai_khoan.dang_nhap_mail');
     }
-    
-    public function resetPassword($hash){
+    public function forgotPassword(QuenMKRequest $request)
+    {
+        // $data = $request->email;
+        $check = TaiKhoan::where('email', $request->email)->first();
+        // dd($check);
+        if ($check) {
+            // $agent = Auth::guard('TaiKhoan')->user();
+            Mail::to($request->email)->send(new MaiForgot(
+                $check->ten_tai_khoan,
+                $check['hash'],
+                'Đặt lại mật khẩu'
+            ));
+        }
+        return response()->json([
+            'status' => true,
+        ]);
+    }
+    public function resetPassword($hash)
+    {
         $customer = TaiKhoan::where('hash', $hash)->first();
-        return view('tai_khoan.update_password',compact('customer'));
+        return view('tai_khoan.update_password', compact('customer'));
     }
 
-    public function updatePassword(UpdatePassword $request){
+    public function updatePassword(UpdatePassword $request)
+    {
         $data['password']   = bcrypt($request->password);
         $tai_khoan = TaiKhoan::find($request->id);
         // dd($tai_khoan);
         $tai_khoan->update($data);
         toastr()->success('Đã cập nhật password thành công!');
         // return redirect('/login');
-         return redirect()->back();
+        return redirect()->back();
     }
 }

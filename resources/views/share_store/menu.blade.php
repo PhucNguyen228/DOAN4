@@ -20,6 +20,10 @@
                     <li class=" nav-item {{ request()->is('store/yeu-cau/index') ? 'active' : '' }}"><a class="menu-item"
                         href="/store/yeu-cau/index" data-i18n="eCommerce">Yêu cầu danh mục</a>
                     </li>
+                    {{-- link doanh_thu --}}
+                    <li class=" nav-item {{ request()->is('store/doanh-thu-store/index') ? 'active' : '' }}"><a class="menu-item"
+                        href="/store/doanh-thu-store/index" data-i18n="eCommerce">Doanh Thu</a>
+                    </li>
                 </ul>
             </li>
             <li class=" nav-item"><a href="/store/index"><i class="feather icon-home"></i><span class="menu-title"
